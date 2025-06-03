@@ -2,6 +2,8 @@
   "name": "memory-game",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./memory-card-react",
+
   "dependencies": {
     "canvas-confetti": "^1.9.3",
     "cra-template-pwa": "2.0.0",
