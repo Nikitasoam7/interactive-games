@@ -1,0 +1,74 @@
+.score-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin: 15px 0;
+  }
+  
+  .score-panel span {
+    font-size: 1.1rem;
+  }
+  
+  .score-panel button {
+    background-color: #333;
+    color: #fff;
+    padding: 6px 14px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .score-panel button:hover {
+    background-color: #555;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 12px;
+    justify-items: center;
+    padding: 1rem;
+  }
+  .game-container {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+  }
+  .card {
+    width: 80px;
+    height: 80px;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+  
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  
+  .card.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-size: 2rem;
+    line-height: 80px;
+    backface-visibility: hidden;
+    background: #eee;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card-back {
+    transform: rotateY(180deg);
+    background: #fff;
+  }
+    
