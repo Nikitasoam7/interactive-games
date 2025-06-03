@@ -1,20 +1,21 @@
+// src/pages/Home.js
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const navigate = useNavigate();
 
-  const startGame = (level) => {
-    navigate('/game', { state: { level } });
+  const handleStart = (level) => {
+    navigate(`/game?level=${level}`);
   };
 
   return (
-    <div className="text-center py-10">
-      <h1 className="text-4xl font-bold mb-6 text-blue-600">🧠 Memory Match Game</h1>
-      <p className="mb-4 text-lg">Choose a difficulty level to start playing:</p>
-      <div className="flex flex-col items-center gap-4">
-        <button onClick={() => startGame('easy')} className="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded">Easy (6 pairs)</button>
-        <button onClick={() => startGame('medium')} className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-6 rounded">Medium (8 pairs)</button>
-        <button onClick={() => startGame('hard')} className="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded">Hard (12 pairs)</button>
+    <div className="min-h-screen bg-gradient-to-r from-pink-100 to-blue-100 dark:from-gray-900 dark:to-gray-800 flex flex-col justify-center items-center text-center">
+      <h1 className="text-4xl font-bold mb-6 text-gray-800 dark:text-white">🎮 Memory Match Game</h1>
+      <div className="flex flex-col space-y-4">
+        <button className="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600" onClick={() => handleStart('easy')}>Easy (6 Pairs)</button>
+        <button className="px-6 py-3 bg-yellow-500 text-white rounded hover:bg-yellow-600" onClick={() => handleStart('medium')}>Medium (8 Pairs)</button>
+        <button className="px-6 py-3 bg-red-500 text-white rounded hover:bg-red-600" onClick={() => handleStart('hard')}>Hard (12 Pairs)</button>
       </div>
     </div>
   );

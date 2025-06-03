@@ -1,105 +1,130 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import './Game.css'; // Make sure this file exists or comment it out
+// src/pages/Game.js
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const emojis = ['🐶', '🐱', '🐻', '🐼', '🦊', '🐸', '🐵', '🦁', '🐮', '🐷', '🐔', '🐧'];
+const emojiList = ['🍕', '🍔', '🍟', '🌮', '🍩', '🍓', '🍇', '🍒', '🍉', '🍎', '🥑', '🥦'];
+const shuffle = (arr) => [...arr, ...arr].sort(() => Math.random() - 0.5);
 
-function Game() {
-  const location = useLocation();
+const Game = () => {
   const navigate = useNavigate();
-  const level = location.state?.level || 'easy';
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const level = query.get('level') || 'easy';
 
-  const levelPairs = {
-    easy: 6,
-    medium: 8,
-    hard: 12,
+  const getLevelCount = () => {
+    if (level === 'medium') return 8;
+    if (level === 'hard') return 12;
+    return 6;
   };
 
-  const numPairs = levelPairs[level] || 6;
-
-  const generateShuffledCards = () => {
-    const selectedEmojis = emojis.slice(0, numPairs);
-    const pairs = [...selectedEmojis, ...selectedEmojis];
-    return pairs
-      .sort(() => Math.random() - 0.5)
-      .map((emoji, index) => ({
-        id: index,
-        emoji,
-        isFlipped: false,
-        isMatched: false,
-      }));
+  const getGridCols = () => {
+    if (level === 'medium') return 'grid-cols-4';
+    if (level === 'hard') return 'grid-cols-6';
+    return 'grid-cols-3';
   };
 
-  const [cards, setCards] = useState(generateShuffledCards());
-  const [flippedCards, setFlippedCards] = useState([]);
-  const [matchedCount, setMatchedCount] = useState(0);
+  const [cards, setCards] = useState([]);
+  const [flipped, setFlipped] = useState([]);
+  const [matched, setMatched] = useState([]);
+  const [moves, setMoves] = useState(0);
+  const [timer, setTimer] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
+  const [intervalId, setIntervalId] = useState(null);
+  const [highScore, setHighScore] = useState(localStorage.getItem(`highScore-${level}`) || 'N/A');
 
   useEffect(() => {
-    if (flippedCards.length === 2) {
-      const [first, second] = flippedCards;
+    startGame();
+  }, [level]);
+
+  useEffect(() => {
+    if (flipped.length === 2) {
+      const [first, second] = flipped;
       if (cards[first].emoji === cards[second].emoji) {
-        const updatedCards = cards.map((card, idx) =>
-          idx === first || idx === second ? { ...card, isMatched: true } : card
-        );
-        setCards(updatedCards);
-        setFlippedCards([]);
-        setMatchedCount((prev) => prev + 1);
+        setMatched((prev) => [...prev, first, second]);
+        setFlipped([]);
       } else {
-        setTimeout(() => {
-          const updatedCards = cards.map((card, idx) =>
-            idx === first || idx === second ? { ...card, isFlipped: false } : card
-          );
-          setCards(updatedCards);
-          setFlippedCards([]);
-        }, 800);
+        setTimeout(() => setFlipped([]), 800);
+      }
+      setMoves((prev) => prev + 1);
+    }
+  }, [flipped]);
+
+  useEffect(() => {
+    if (matched.length === cards.length && cards.length > 0) {
+      clearInterval(intervalId);
+      setGameOver(true);
+      const best = localStorage.getItem(`highScore-${level}`);
+      if (!best || Number(timer) < Number(best)) {
+        localStorage.setItem(`highScore-${level}`, timer);
+        setHighScore(timer);
       }
     }
-  }, [flippedCards]);
+  }, [matched]);
 
   useEffect(() => {
-    if (matchedCount === numPairs) {
-      setTimeout(() => navigate('/win'), 500);
+    if (intervalId) clearInterval(intervalId);
+    const id = setInterval(() => setTimer((prev) => prev + 1), 1000);
+    setIntervalId(id);
+    return () => clearInterval(id);
+  }, [cards]);
+
+  const startGame = () => {
+    const count = getLevelCount();
+    const shuffled = shuffle(emojiList.slice(0, count)).map((emoji, i) => ({ id: i, emoji }));
+    setCards(shuffled);
+    setFlipped([]);
+    setMatched([]);
+    setMoves(0);
+    setTimer(0);
+    setGameOver(false);
+  };
+
+  const handleFlip = (index) => {
+    if (flipped.length < 2 && !flipped.includes(index) && !matched.includes(index)) {
+      setFlipped((prev) => [...prev, index]);
     }
-  }, [matchedCount]);
-
-  const handleCardClick = (index) => {
-    if (cards[index].isFlipped || cards[index].isMatched || flippedCards.length === 2) return;
-
-    const newCards = [...cards];
-    newCards[index].isFlipped = true;
-    setCards(newCards);
-    setFlippedCards([...flippedCards, index]);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800 transition-all">
-      <h2 className="text-2xl font-bold text-blue-600 dark:text-yellow-300 mb-4">
-        Level: {level.charAt(0).toUpperCase() + level.slice(1)}
-      </h2>
+    <div className="min-h-screen bg-gradient-to-br from-purple-200 to-blue-100 text-gray-800 dark:bg-gray-900 dark:text-white transition-colors">
+      <div className="text-center py-4">
+        <h1 className="text-3xl font-bold">🧠 Memory Match ({level.toUpperCase()})</h1>
+        <p className="mt-2">Moves: {moves} | Timer: {timer}s | High Score: {highScore}s</p>
+        {gameOver && <p className="mt-2 text-green-500 font-semibold">🎉 You Win!</p>}
+        <div className="space-x-2 mt-4">
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+            onClick={startGame}
+          >
+            🔄 Restart
+          </button>
+          <button
+            className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
+            onClick={() => navigate('/')}
+          >
+            🔙 Back
+          </button>
+        </div>
+      </div>
 
-      <div
-        className={`grid gap-4 ${
-          numPairs === 6
-            ? 'grid-cols-3'
-            : numPairs === 8
-            ? 'grid-cols-4'
-            : 'grid-cols-6'
-        }`}
-      >
+      <div className={`grid ${getGridCols()} gap-4 p-4 max-w-4xl mx-auto`}>
         {cards.map((card, index) => (
           <div
-            key={card.id}
-            className={`w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-white dark:bg-gray-700 shadow-lg rounded-lg cursor-pointer flex items-center justify-center text-3xl sm:text-4xl transition-transform duration-300 ${
-              card.isFlipped || card.isMatched ? 'rotate-y-180' : ''
+            key={index}
+            onClick={() => handleFlip(index)}
+            className={`w-20 h-28 md:w-24 md:h-32 cursor-pointer flex items-center justify-center rounded-lg text-3xl md:text-5xl shadow-md 
+            ${flipped.includes(index) || matched.includes(index)
+            ? 'bg-white dark:bg-gray-700'
+            : 'bg-blue-200 dark:bg-gray-600'
             }`}
-            onClick={() => handleCardClick(index)}
           >
-            {card.isFlipped || card.isMatched ? card.emoji : '❓'}
+
+            {(flipped.includes(index) || matched.includes(index)) ? card.emoji : '❓'}
           </div>
         ))}
       </div>
     </div>
   );
-}
+};
 
 export default Game;
