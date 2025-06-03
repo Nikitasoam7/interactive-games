@@ -2,7 +2,7 @@
   "name": "memory-game",
   "version": "0.1.0",
   "private": true,
-  "homepage": "./memory-card-react",
+  "homepage": "https://nikitasoam7.github.io/interactive-games/memory-card-game-react",
 
   "dependencies": {
     "canvas-confetti": "^1.9.3",

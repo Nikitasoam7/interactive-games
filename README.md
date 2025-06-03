@@ -6,14 +6,21 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 
 ## 🧩 Games Included
 
-### 1. 🃏 Memory Matching Game (React + TailwindCSS)
+### 1. 🃏 Memory Matching card Game (React + TailwindCSS)
+`memory-card-game-react/`
+
+## 🚀 Features
 - Flip cards and match pairs
 - Levels: Easy, Medium, Hard
 - Timer, move counter & high score tracking
-- Light/Dark theme toggle
 - Responsive UI
-- Full PWA support (installable on mobile)
 - Reset and score storage via `localStorage`
+
+### 2. 🃏 Matching Card Game (HTML Version)
+`matching-card-game-html/`
+## 🚀 Features
+- Tracks timer, moves, and high score
+- Fully in a single file — no build required
 
 ### 2. 🏀 Bouncing Ball Game (Coming Soon)
 - Real-time collision
@@ -40,7 +47,7 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 
 ## 📲 Live Demo
 
-👉 [Live Demo Link (if hosted)](https://your-live-link.netlify.app)
+👉 [Live Demo Link for matching-card-game-html](https://nikitasoam7.github.io/interactive-games/matching-card-game-html/)
 
 ---
 
