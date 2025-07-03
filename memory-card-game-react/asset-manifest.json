@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.css": "./memory-card-react/static/css/main.c5fd8c66.css",
-    "main.js": "./memory-card-react/static/js/main.475a1c55.js",
-    "service-worker.js": "./memory-card-react/service-worker.js",
-    "index.html": "./memory-card-react/index.html",
-    "main.c5fd8c66.css.map": "./memory-card-react/static/css/main.c5fd8c66.css.map",
-    "main.475a1c55.js.map": "./memory-card-react/static/js/main.475a1c55.js.map"
+    "main.css": "/interactive-games/memory-card-game-react/static/css/main.c5fd8c66.css",
+    "main.js": "/interactive-games/memory-card-game-react/static/js/main.475a1c55.js",
+    "service-worker.js": "/interactive-games/memory-card-game-react/service-worker.js",
+    "index.html": "/interactive-games/memory-card-game-react/index.html",
+    "main.c5fd8c66.css.map": "/interactive-games/memory-card-game-react/static/css/main.c5fd8c66.css.map",
+    "main.475a1c55.js.map": "/interactive-games/memory-card-game-react/static/js/main.475a1c55.js.map"
   },
   "entrypoints": [
     "static/css/main.c5fd8c66.css",
