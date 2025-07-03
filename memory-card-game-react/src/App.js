@@ -7,7 +7,7 @@ import Win from './pages/Win';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/interactive-games/memory-card-game-react">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/game" element={<Game />} />
