@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouncing Ball Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        h1 {
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        #gameCanvas {
+            border: 3px solid #fff;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: #000;
+        }
+        
+        #score {
+            color: white;
+            font-size: 24px;
+            margin-top: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        #controls {
+            color: white;
+            margin-top: 15px;
+            text-align: center;
+            opacity: 0.8;
+        }
+        
+        #gameOver {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+            border: 2px solid #fff;
+        }
+        
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏓 Bouncing Ball Game</h1>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="score">Score: 0</div>
+    <div id="controls">
+        Use ← → arrow keys or A/D keys to move the paddle
+    </div>
+    
+    <div id="gameOver">
+        <h2>Game Over!</h2>
+        <p id="finalScore"></p>
+        <button onclick="restartGame()">Play Again</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const gameOverElement = document.getElementById('gameOver');
+        const finalScoreElement = document.getElementById('finalScore');
+        
+        // Game variables
+        let score = 0;
+        let gameRunning = true;
+        
+        // Ball properties
+        const ball = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            radius: 12,
+            dx: 5,
+            dy: -5,
+            color: '#ff6b6b'
+        };
+        
+        // Paddle properties
+        const paddle = {
+            x: canvas.width / 2 - 75,
+            y: canvas.height - 30,
+            width: 150,
+            height: 15,
+            speed: 8,
+            color: '#4ecdc4'
+        };
+        
+        // Input handling
+        const keys = {};
+        
+        document.addEventListener('keydown', (e) => {
+            keys[e.key.toLowerCase()] = true;
+        });
+        
+        document.addEventListener('keyup', (e) => {
+            keys[e.key.toLowerCase()] = false;
+        });
+        
+        // Draw functions
+        function drawBall() {
+            // Ball shadow
+            ctx.beginPath();
+            ctx.arc(ball.x + 2, ball.y + 2, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.fill();
+            
+            // Ball gradient
+            const gradient = ctx.createRadialGradient(
+                ball.x - 3, ball.y - 3, 0,
+                ball.x, ball.y, ball.radius
+            );
+            gradient.addColorStop(0, '#ff8a8a');
+            gradient.addColorStop(1, ball.color);
+            
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            
+            // Ball highlight
+            ctx.beginPath();
+            ctx.arc(ball.x - 3, ball.y - 3, 3, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,255,255,0.6)';
+            ctx.fill();
+        }
+        
+        function drawPaddle() {
+            // Paddle shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.fillRect(paddle.x + 2, paddle.y + 2, paddle.width, paddle.height);
+            
+            // Paddle gradient
+            const gradient = ctx.createLinearGradient(
+                paddle.x, paddle.y,
+                paddle.x, paddle.y + paddle.height
+            );
+            gradient.addColorStop(0, '#6ee6dd');
+            gradient.addColorStop(1, paddle.color);
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+            
+            // Paddle border
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(paddle.x, paddle.y, paddle.width, paddle.height);
+        }
+        
+        // Collision detection
+        function checkBallPaddleCollision() {
+            // Check if ball is at paddle level and overlapping horizontally
+            if (ball.y + ball.radius >= paddle.y && 
+                ball.y - ball.radius <= paddle.y + paddle.height &&
+                ball.x + ball.radius >= paddle.x && 
+                ball.x - ball.radius <= paddle.x + paddle.width) {
+                
+                // Only bounce if ball is moving downward (prevents multiple bounces)
+                if (ball.dy > 0) {
+                    ball.dy = -ball.dy;
+                    
+                    // Add some horizontal velocity based on where ball hits paddle
+                    const hitPos = (ball.x - paddle.x) / paddle.width;
+                    const bounceAngle = (hitPos - 0.5) * 0.75;
+                    ball.dx += bounceAngle * 3;
+                    
+                    // Limit horizontal speed
+                    ball.dx = Math.max(-8, Math.min(8, ball.dx));
+                    
+                    // Make sure ball is above paddle
+                    ball.y = paddle.y - ball.radius;
+                    
+                    // Increase score and speed slightly
+                    score += 10;
+                    ball.dx *= 1.02;
+                    ball.dy *= 1.02;
+                    
+                    // Visual feedback
+                    paddle.color = '#ff6b6b';
+                    setTimeout(() => {
+                        paddle.color = '#4ecdc4';
+                    }, 100);
+                }
+            }
+        }
+        
+        // Update game state
+        function update() {
+            if (!gameRunning) return;
+            
+            // Move paddle
+            if ((keys['arrowleft'] || keys['a']) && paddle.x > 0) {
+                paddle.x -= paddle.speed;
+            }
+            if ((keys['arrowright'] || keys['d']) && paddle.x < canvas.width - paddle.width) {
+                paddle.x += paddle.speed;
+            }
+            
+            // Move ball
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+            
+            // Ball collision with walls
+            if (ball.x - ball.radius <= 0 || ball.x + ball.radius >= canvas.width) {
+                ball.dx = -ball.dx;
+                ball.x = ball.x - ball.radius <= 0 ? ball.radius : canvas.width - ball.radius;
+            }
+            
+            if (ball.y - ball.radius <= 0) {
+                ball.dy = -ball.dy;
+                ball.y = ball.radius;
+            }
+            
+            // Check paddle collision
+            checkBallPaddleCollision();
+            
+            // Game over condition
+            if (ball.y - ball.radius > canvas.height) {
+                gameOver();
+            }
+            
+            // Update score display
+            scoreElement.textContent = `Score: ${score}`;
+        }
+        
+        // Render game
+        function render() {
+            // Clear canvas with gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#1a1a2e');
+            gradient.addColorStop(1, '#16213e');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw grid pattern
+            ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < canvas.width; i += 50) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, canvas.height);
+                ctx.stroke();
+            }
+            for (let i = 0; i < canvas.height; i += 50) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(canvas.width, i);
+                ctx.stroke();
+            }
+            
+            drawBall();
+            drawPaddle();
+        }
+        
+        // Game loop
+        function gameLoop() {
+            update();
+            render();
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Game over
+        function gameOver() {
+            gameRunning = false;
+            finalScoreElement.textContent = `Final Score: ${score}`;
+            gameOverElement.style.display = 'block';
+        }
+        
+        // Restart game
+        function restartGame() {
+            gameRunning = true;
+            score = 0;
+            
+            // Reset ball
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 2;
+            ball.dx = 5;
+            ball.dy = -5;
+            
+            // Reset paddle
+            paddle.x = canvas.width / 2 - 75;
+            paddle.color = '#4ecdc4';
+            
+            gameOverElement.style.display = 'none';
+        }
+        
+        // Start game
+        gameLoop();
+    </script>
+</body>
+</html>
