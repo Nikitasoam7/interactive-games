@@ -32,7 +32,7 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 - Fun & colorful UI using icons and images
 - Fully responsive for desktop and mobile
 
-### 4. ☕ Java Interview Prep Guide (React + TailwindCSS)
+### 4. ☕ Java Interview Prep Guide (HTML + CSS + JS)
 `java-interview-prep-guide-html/`
 
 ## 📘 Features
@@ -43,12 +43,21 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 - Easily extendable with new topics and answers
 - Ideal for last-minute revision and concept brushing
 
-### 5. 🏀 Bouncing Ball Game (Coming Soon)
+### 5. 🥎 Bouncing Ball Collect Points Game (HTML + CSS + JS)
 - Real-time collision
 - Score tracking and difficulty levels
-- Multiplayer support planned using WebSockets
+- Multiple Levels like Easy, Medium and Hard
+- Fun & colorful UI using icons and images
+- Move the paddle left & right to catch falling apples
 
-### 6. 🔢 Number Shifting Puzzle (Coming Soon)
+### 6. 🎾 Bouncing Ball with Racket Game (HTML + CSS + JS)
+- Real-time collision
+- Score tracking
+- Move the Racket left & right by arrow kays
+- Fully responsive for desktop and mobile
+- Live score tracking, timer, and best score (stored using localStorage)
+
+### 7. 🔢 Number Shifting Puzzle (Coming Soon)
 - Classic 15-tile shifting logic
 - Responsive, mobile-ready UI
 
@@ -73,6 +82,10 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 👉 [Live Demo Link for catch-the-apples](https://nikitasoam7.github.io/interactive-games/catch-the-apples/)
 
 👉 [Live Demo Link for java-interview-prepration-guide](https://nikitasoam7.github.io/interactive-games/java-interview-prepration-guide/java-interview-prep-guide-html/)
+
+👉 [Live Demo Link for bouncing-ball-collect-points](https://nikitasoam7.github.io/interactive-games/bouncing-ball-game/bouncing-ball-collect-points/)
+
+👉 [Live Demo Link for java-interview-prepration-guide](https://nikitasoam7.github.io/interactive-games/bouncing-ball-game/bouncing-ball-racket-game/)
 
 ---
 
