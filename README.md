@@ -44,6 +44,9 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 - Ideal for last-minute revision and concept brushing
 
 ### 5. 🥎 Bouncing Ball Collect Points Game (HTML + CSS + JS)
+`bouncing-ball-collect-points/`
+
+## 📘 Features
 - Real-time collision
 - Score tracking and difficulty levels
 - Multiple Levels like Easy, Medium and Hard
