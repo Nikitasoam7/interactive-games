@@ -68,7 +68,7 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 
 ## 📲 Live Demo
 
-👉 [Live Demo Link for matching-card-game-html](https://nikitasoam7.github.io/interactive-games/interactive-games/matching-card-game/matching-card-game-html/)
+👉 [Live Demo Link for matching-card-game-html](https://nikitasoam7.github.io/interactive-games/matching-card-game/matching-card-game-html)
 
 👉 [Live Demo Link for catch-the-apples](https://nikitasoam7.github.io/interactive-games/catch-the-apples/)
 
