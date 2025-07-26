@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔢 Number Shifting Puzzle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 15px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .timer, .moves {
+            font-size: 1.2em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 8px;
+            width: 320px;
+            height: 320px;
+            margin: 0 auto 25px;
+            padding: 15px;
+            background: linear-gradient(145deg, #e2e8f0, #cbd5e0);
+            border-radius: 20px;
+            box-shadow: inset 8px 8px 16px #b8c6d9, inset -8px -8px 16px #ffffff;
+        }
+
+        .tile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tile:not(.empty) {
+            background: linear-gradient(145deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            box-shadow: 6px 6px 12px rgba(79, 172, 254, 0.3), -6px -6px 12px rgba(255, 255, 255, 0.7);
+        }
+
+        .tile:not(.empty):hover {
+            transform: translateY(-2px);
+            box-shadow: 8px 8px 16px rgba(79, 172, 254, 0.4), -8px -8px 16px rgba(255, 255, 255, 0.8);
+        }
+
+        .tile:not(.empty):active {
+            transform: translateY(0);
+            box-shadow: 4px 4px 8px rgba(79, 172, 254, 0.2), -4px -4px 8px rgba(255, 255, 255, 0.6);
+        }
+
+        .tile.empty {
+            background: transparent;
+            box-shadow: inset 4px 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .tile.movable {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(240, 147, 251, 0.6);
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .win-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .win-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: celebrateIn 0.5s ease-out;
+        }
+
+        @keyframes celebrateIn {
+            0% { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .win-content h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .win-stats {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .puzzle-grid {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .tile {
+                font-size: 1.5em;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔢 Number Shifting Puzzle</h1>
+        
+        <div class="instructions">
+            <strong>How to Play:</strong> Use arrow keys (↑↓←→) or WASD keys to move tiles. 
+            Arrange numbers 1-15 in order with the empty space at bottom-right. 
+            Click tiles adjacent to empty space to move them!
+        </div>
+        
+        <div class="game-info">
+            <div class="timer">⏱️ Time: <span id="timeDisplay">00:00</span></div>
+            <div class="moves">🔄 Moves: <span id="movesDisplay">0</span></div>
+        </div>
+        
+        <div class="puzzle-grid" id="puzzleGrid"></div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" onclick="newGame()">🆕 New Game</button>
+            <button class="btn btn-secondary" onclick="shufflePuzzle()">🔀 Shuffle</button>
+            <button class="btn btn-primary" onclick="solvePuzzle()">💡 Auto Solve</button>
+        </div>
+    </div>
+
+    <div class="win-message" id="winMessage">
+        <div class="win-content">
+            <h2>🎉 Congratulations!</h2>
+            <div class="win-stats" id="winStats"></div>
+            <button class="btn btn-primary" onclick="closeWinMessage()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        class NumberShiftingPuzzle {
+            constructor() {
+                this.grid = [];
+                this.emptyRow = 3;
+                this.emptyCol = 3;
+                this.moves = 0;
+                this.startTime = null;
+                this.timerInterval = null;
+                this.gameWon = false;
+                
+                this.initializeGrid();
+                this.setupEventListeners();
+                this.renderGrid();
+                this.startTimer();
+            }
+            
+            initializeGrid() {
+                // Create solved state
+                for (let i = 0; i < 4; i++) {
+                    this.grid[i] = [];
+                    for (let j = 0; j < 4; j++) {
+                        if (i === 3 && j === 3) {
+                            this.grid[i][j] = 0; // Empty space
+                        } else {
+                            this.grid[i][j] = i * 4 + j + 1;
+                        }
+                    }
+                }
+                this.shufflePuzzle();
+            }
+            
+            shufflePuzzle() {
+                // Perform 1000 random valid moves to ensure solvability
+                for (let i = 0; i < 1000; i++) {
+                    const moves = this.getValidMoves();
+                    if (moves.length > 0) {
+                        const randomMove = moves[Math.floor(Math.random() * moves.length)];
+                        this.makeMove(randomMove.row, randomMove.col, false);
+                    }
+                }
+                this.moves = 0;
+                this.updateDisplay();
+                this.renderGrid();
+            }
+            
+            getValidMoves() {
+                const moves = [];
+                const directions = [
+                    { row: -1, col: 0 }, // Up
+                    { row: 1, col: 0 },  // Down
+                    { row: 0, col: -1 }, // Left
+                    { row: 0, col: 1 }   // Right
+                ];
+                
+                for (const dir of directions) {
+                    const newRow = this.emptyRow + dir.row;
+                    const newCol = this.emptyCol + dir.col;
+                    
+                    if (newRow >= 0 && newRow < 4 && newCol >= 0 && newCol < 4) {
+                        moves.push({ row: newRow, col: newCol });
+                    }
+                }
+                
+                return moves;
+            }
+            
+            makeMove(row, col, countMove = true) {
+                // Check if the move is valid (adjacent to empty space)
+                const rowDiff = Math.abs(row - this.emptyRow);
+                const colDiff = Math.abs(col - this.emptyCol);
+                
+                if ((rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1)) {
+                    // Swap tile with empty space
+                    this.grid[this.emptyRow][this.emptyCol] = this.grid[row][col];
+                    this.grid[row][col] = 0;
+                    
+                    this.emptyRow = row;
+                    this.emptyCol = col;
+                    
+                    if (countMove) {
+                        this.moves++;
+                        this.updateDisplay();
+                        this.checkWin();
+                    }
+                    
+                    this.renderGrid();
+                    return true;
+                }
+                return false;
+            }
+            
+            handleKeyPress(key) {
+                if (this.gameWon) return;
+                
+                let targetRow = this.emptyRow;
+                let targetCol = this.emptyCol;
+                
+                switch(key.toLowerCase()) {
+                    case 'arrowup':
+                    case 'w':
+                        targetRow = this.emptyRow + 1;
+                        break;
+                    case 'arrowdown':
+                    case 's':
+                        targetRow = this.emptyRow - 1;
+                        break;
+                    case 'arrowleft':
+                    case 'a':
+                        targetCol = this.emptyCol + 1;
+                        break;
+                    case 'arrowright':
+                    case 'd':
+                        targetCol = this.emptyCol - 1;
+                        break;
+                    default:
+                        return;
+                }
+                
+                if (targetRow >= 0 && targetRow < 4 && targetCol >= 0 && targetCol < 4) {
+                    this.makeMove(targetRow, targetCol);
+                }
+            }
+            
+            renderGrid() {
+                const grid = document.getElementById('puzzleGrid');
+                grid.innerHTML = '';
+                
+                const validMoves = this.getValidMoves();
+                
+                for (let i = 0; i < 4; i++) {
+                    for (let j = 0; j < 4; j++) {
+                        const tile = document.createElement('div');
+                        tile.className = 'tile';
+                        
+                        if (this.grid[i][j] === 0) {
+                            tile.classList.add('empty');
+                        } else {
+                            tile.textContent = this.grid[i][j];
+                            
+                            // Check if this tile can move
+                            const canMove = validMoves.some(move => move.row === i && move.col === j);
+                            if (canMove) {
+                                tile.classList.add('movable');
+                            }
+                            
+                            tile.addEventListener('click', () => {
+                                this.makeMove(i, j);
+                            });
+                        }
+                        
+                        grid.appendChild(tile);
+                    }
+                }
+            }
+            
+            checkWin() {
+                let correctCount = 0;
+                for (let i = 0; i < 4; i++) {
+                    for (let j = 0; j < 4; j++) {
+                        const expectedValue = (i === 3 && j === 3) ? 0 : i * 4 + j + 1;
+                        if (this.grid[i][j] === expectedValue) {
+                            correctCount++;
+                        }
+                    }
+                }
+                
+                if (correctCount === 16) {
+                    this.gameWon = true;
+                    this.stopTimer();
+                    this.showWinMessage();
+                }
+            }
+            
+            startTimer() {
+                this.startTime = Date.now();
+                this.timerInterval = setInterval(() => {
+                    if (!this.gameWon) {
+                        this.updateTimer();
+                    }
+                }, 1000);
+            }
+            
+            stopTimer() {
+                if (this.timerInterval) {
+                    clearInterval(this.timerInterval);
+                    this.timerInterval = null;
+                }
+            }
+            
+            updateTimer() {
+                const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('timeDisplay').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            updateDisplay() {
+                document.getElementById('movesDisplay').textContent = this.moves;
+            }
+            
+            showWinMessage() {
+                const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                document.getElementById('winStats').innerHTML = `
+                    <div>🏆 Puzzle Solved!</div>
+                    <div>⏱️ Time: ${timeStr}</div>
+                    <div>🔄 Moves: ${this.moves}</div>
+                    <div>⚡ Score: ${Math.max(1000 - this.moves * 10 - elapsed, 100)}</div>
+                `;
+                
+                document.getElementById('winMessage').style.display = 'flex';
+            }
+            
+            solvePuzzle() {
+                // Simple solve by resetting to solved state
+                for (let i = 0; i < 4; i++) {
+                    for (let j = 0; j < 4; j++) {
+                        if (i === 3 && j === 3) {
+                            this.grid[i][j] = 0;
+                        } else {
+                            this.grid[i][j] = i * 4 + j + 1;
+                        }
+                    }
+                }
+                this.emptyRow = 3;
+                this.emptyCol = 3;
+                this.renderGrid();
+                this.checkWin();
+            }
+            
+            setupEventListeners() {
+                document.addEventListener('keydown', (e) => {
+                    e.preventDefault();
+                    this.handleKeyPress(e.key);
+                });
+            }
+        }
+        
+        let game = new NumberShiftingPuzzle();
+        
+        function newGame() {
+            game.stopTimer();
+            game = new NumberShiftingPuzzle();
+        }
+        
+        function shufflePuzzle() {
+            game.shufflePuzzle();
+            game.stopTimer();
+            game.startTimer();
+            game.gameWon = false;
+        }
+        
+        function solvePuzzle() {
+            game.solvePuzzle();
+        }
+        
+        function closeWinMessage() {
+            document.getElementById('winMessage').style.display = 'none';
+            newGame();
+        }
+    </script>
+</body>
+</html>

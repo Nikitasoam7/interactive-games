@@ -57,9 +57,11 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 - Fully responsive for desktop and mobile
 - Live score tracking, timer, and best score (stored using localStorage)
 
-### 7. 🔢 Number Shifting Puzzle (Coming Soon)
+### 7. 🔢 Number Shifting Puzzle (HTML + CSS + JS)
 - Classic 15-tile shifting logic
 - Responsive, mobile-ready UI
+- Auto Solve feture
+- You can suffle anytime to the numbers
 
 ---
 
@@ -86,6 +88,8 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 👉 [Live Demo Link for bouncing-ball-collect-points](https://nikitasoam7.github.io/interactive-games/bouncing-ball-game/bouncing-ball-collect-points/)
 
 👉 [Live Demo Link for java-interview-prepration-guide](https://nikitasoam7.github.io/interactive-games/bouncing-ball-game/bouncing-ball-racket-game/)
+
+👉 [Live Demo Link for interactive-games/number-shifting-game](https://nikitasoam7.github.io/interactive-games/interactive-games/number-shifting-game/)
 
 ---
 
