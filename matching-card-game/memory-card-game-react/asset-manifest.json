@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/interactive-games/memory-card-game-react/static/css/main.c5fd8c66.css",
+    "main.js": "/interactive-games/memory-card-game-react/static/js/main.1656d7eb.js",
+    "service-worker.js": "/interactive-games/memory-card-game-react/service-worker.js",
+    "index.html": "/interactive-games/memory-card-game-react/index.html",
+    "main.c5fd8c66.css.map": "/interactive-games/memory-card-game-react/static/css/main.c5fd8c66.css.map",
+    "main.1656d7eb.js.map": "/interactive-games/memory-card-game-react/static/js/main.1656d7eb.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c5fd8c66.css",
+    "static/js/main.1656d7eb.js"
+  ]
+}

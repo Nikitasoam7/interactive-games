@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Developer Interview Prep Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9fafb;
+        }
+
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 24px;
+            background: white;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6b7280;
+            margin-bottom: 16px;
+        }
+
+        .tip-box {
+            background: #dbeafe;
+            padding: 16px;
+            border-radius: 8px;
+            color: #1e40af;
+            font-size: 0.875rem;
+        }
+
+        .section {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #f9fafb;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: inherit;
+        }
+
+        .section-header:hover {
+            background: #f3f4f6;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            color: #2563eb;
+        }
+
+        .chevron {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .chevron.open {
+            transform: rotate(90deg);
+        }
+
+        .section-content {
+            padding: 16px;
+            border-top: 1px solid #e5e7eb;
+            display: none;
+        }
+
+        .section-content.open {
+            display: block;
+        }
+
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .checklist-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .checkbox {
+            width: 16px;
+            height: 16px;
+            margin-top: 2px;
+            cursor: pointer;
+            color: #2563eb;
+        }
+
+        .checkbox:hover {
+            color: #1d4ed8;
+        }
+
+        .checklist-text {
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+
+        .checklist-text.completed {
+            text-decoration: line-through;
+            color: #6b7280;
+        }
+
+        .info-box {
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 16px;
+            font-size: 0.875rem;
+        }
+
+        .info-box h5 {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            margin-top: 4px;
+        }
+
+        .info-box li {
+            margin-bottom: 4px;
+        }
+
+        .yellow-box {
+            background: #fefce8;
+            color: #92400e;
+        }
+
+        .yellow-box h5 {
+            color: #92400e;
+        }
+
+        .green-box {
+            background: #f0fdf4;
+            color: #166534;
+        }
+
+        .green-box h5 {
+            color: #166534;
+        }
+
+        .red-box {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .red-box h5 {
+            color: #991b1b;
+        }
+
+        .purple-box {
+            background: #faf5ff;
+            color: #7c3aed;
+        }
+
+        .purple-box h5 {
+            color: #7c3aed;
+        }
+
+        .blue-box {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .blue-box h5 {
+            color: #1d4ed8;
+        }
+
+        .final-checklist {
+            margin-top: 32px;
+            padding: 16px;
+            background: linear-gradient(to right, #dbeafe, #f3e8ff);
+            border-radius: 8px;
+        }
+
+        .final-checklist h3 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .footer {
+            margin-top: 24px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Java Developer Interview Prep</h1>
+            <p>Targeting Google & Top Tech Companies</p>
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> Google focuses heavily on problem-solving, system design basics, and clean code. Practice coding on a whiteboard or paper!
+            </div>
+        </div>
+
+        <!-- Core Java Section -->
+        <div class="section">
+            <button class="section-header" onclick="toggleSection('java')">
+                <div class="section-title">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                    </svg>
+                    <h3>Core Java Concepts</h3>
+                </div>
+                <svg class="chevron" id="chevron-java" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            <div class="section-content" id="content-java">
+                <h4 style="font-weight: 600; margin-bottom: 8px;">Must-Know Topics:</h4>
+                <div class="checklist-grid">
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">OOP Principles (Inheritance, Polymorphism, Encapsulation, Abstraction)</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Collections Framework (List, Set, Map implementations)</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Multithreading & Concurrency</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Exception Handling</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">JVM Architecture & Memory Management</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Garbage Collection</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Java 8+ Features (Streams, Lambda, Optional)</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Spring Framework Basics</span>
+                    </div>
+                </div>
+                
+                <div class="info-box yellow-box">
+                    <h5>Common Java Questions:</h5>
+                    <ul>
+                        <li>• Difference between == and .equals()</li>
+                        <li>• HashMap vs ConcurrentHashMap</li>
+                        <li>• String vs StringBuilder vs StringBuffer</li>
+                        <li>• Method overloading vs overriding</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- DSA Section -->
+        <div class="section">
+            <button class="section-header" onclick="toggleSection('dsa')">
+                <div class="section-title">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                    <h3>Data Structures & Algorithms</h3>
+                </div>
+                <svg class="chevron" id="chevron-dsa" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            <div class="section-content" id="content-dsa">
+                <h4 style="font-weight: 600; margin-bottom: 8px;">Essential Topics:</h4>
+                <div class="checklist-grid">
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Arrays & Strings</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Linked Lists</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Stacks & Queues</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Trees (Binary, BST)</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Basic Graphs</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Sorting Algorithms</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Binary Search</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Hashing</span>
+                    </div>
+                </div>
+                
+                <div class="info-box green-box">
+                    <h5>Practice Platforms:</h5>
+                    <ul>
+                        <li>• LeetCode (Easy → Medium problems)</li>
+                        <li>• HackerRank Java domain</li>
+                        <li>• GeeksforGeeks</li>
+                    </ul>
+                </div>
+
+                <div class="info-box red-box">
+                    <h5>Google-Style Questions:</h5>
+                    <ul>
+                        <li>• Two Sum, Three Sum</li>
+                        <li>• Valid Parentheses</li>
+                        <li>• Merge Two Sorted Lists</li>
+                        <li>• Binary Tree Traversals</li>
+                        <li>• First Non-Repeating Character</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Design Section -->
+        <div class="section">
+            <button class="section-header" onclick="toggleSection('system')">
+                <div class="section-title">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                    <h3>System Design (Basics)</h3>
+                </div>
+                <svg class="chevron" id="chevron-system" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            <div class="section-content" id="content-system">
+                <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 16px;">As a fresher, you'll get basic system design questions. Focus on fundamentals:</p>
+                
+                <div class="checklist-grid">
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Database basics (SQL vs NoSQL)</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">REST APIs</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Basic Caching concepts</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Horizontal vs Vertical Scaling</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Load Balancing basics</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Microservices vs Monolith</span>
+                    </div>
+                </div>
+                
+                <div class="info-box purple-box">
+                    <h5>Sample Questions:</h5>
+                    <ul>
+                        <li>• Design a simple URL shortener</li>
+                        <li>• Design a basic chat application</li>
+                        <li>• How would you design a simple e-commerce system?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Behavioral Section -->
+        <div class="section">
+            <button class="section-header" onclick="toggleSection('behavioral')">
+                <div class="section-title">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                    <h3>Behavioral Questions</h3>
+                </div>
+                <svg class="chevron" id="chevron-behavioral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            <div class="section-content" id="content-behavioral">
+                <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 16px;">Google values Googleyness - be authentic, show growth mindset, and demonstrate leadership potential.</p>
+                
+                <h4 style="font-weight: 600; margin-bottom: 8px;">Prepare STAR Method answers for:</h4>
+                <div style="margin-bottom: 16px;">
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Tell me about a challenging project you worked on</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Describe a time you failed and what you learned</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Give an example of working in a team</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Tell me about a time you showed leadership</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">How do you handle disagreements?</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">Why do you want to work at Google?</span>
+                    </div>
+                    <div class="checklist-item">
+                        <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        </svg>
+                        <span class="checklist-text">How do you stay updated with technology?</span>
+                    </div>
+                </div>
+                
+                <div class="info-box blue-box">
+                    <h5>Google-Specific Tips:</h5>
+                    <ul>
+                        <li>• Show passion for technology and continuous learning</li>
+                        <li>• Demonstrate problem-solving approach</li>
+                        <li>• Mention any open-source contributions or personal projects</li>
+                        <li>• Be ready to discuss your projects in detail</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Checklist -->
+        <div class="final-checklist">
+            <h3>🎯 Final Preparation Checklist</h3>
+            <div class="checklist-grid">
+                <div class="checklist-item">
+                    <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    </svg>
+                    <span class="checklist-text">Polish your resume with quantifiable achievements</span>
+                </div>
+                <div class="checklist-item">
+                    <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    </svg>
+                    <span class="checklist-text">Prepare 2-3 projects to discuss in detail</span>
+                </div>
+                <div class="checklist-item">
+                    <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    </svg>
+                    <span class="checklist-text">Prepare thoughtful questions about Google/role</span>
+                </div>
+                <div class="checklist-item">
+                    <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    </svg>
+                    <span class="checklist-text">Do mock interviews with friends/online</span>
+                </div>
+                <div class="checklist-item">
+                    <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    </svg>
+                    <span class="checklist-text">Research Google's products and culture</span>
+                </div>
+                <div class="checklist-item">
+                    <svg class="checkbox" onclick="toggleCheck(this)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    </svg>
+                    <span class="checklist-text">Solve 2-3 coding problems daily</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Remember: Google hires for potential, not just current skills. Show your passion for learning and problem-solving! 🚀</p>
+        </div>
+    </div>
+
+    <script>
+        // Store section states
+        let sectionStates = {};
+        let checkedStates = {};
+
+        function toggleSection(sectionId) {
+            const content = document.getElementById(`content-${sectionId}`);
+            const chevron = document.getElementById(`chevron-${sectionId}`);
+            
+            if (sectionStates[sectionId]) {
+                content.classList.remove('open');
+                chevron.classList.remove('open');
+                sectionStates[sectionId] = false;
+            } else {
+                content.classList.add('open');
+                chevron.classList.add('open');
+                sectionStates[sectionId] = true;
+            }
+        }
+
+        function toggleCheck(checkbox) {
+            const textElement = checkbox.nextElementSibling;
+            const itemId = textElement.textContent;
+            
+            if (checkedStates[itemId]) {
+                // Unchecked state
+                checkbox.innerHTML = '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>';
+                textElement.classList.remove('completed');
+                checkedStates[itemId] = false;
+            } else {
+                // Checked state
+                checkbox.innerHTML = '<rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><polyline points="9,11 12,14 16,10"></polyline>';
+                textElement.classList.add('completed');
+                checkedStates[itemId] = true;
+            }
+        }
+
+        // Initialize all sections as closed
+        document.addEventListener('DOMContentLoaded', function() {
+            sectionStates = {
+                java: false,
+                dsa: false,
+                system: false,
+                behavioral: false
+            };
+            checkedStates = {};
+        });
+    </script>
+</body>
+</html>

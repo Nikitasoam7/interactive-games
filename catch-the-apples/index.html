@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Catcher Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #87CEEB 0%, #98FB98 50%, #F0E68C 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .game-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background: linear-gradient(to bottom, #87CEEB 0%, #98FB98 70%, #90EE90 100%);
+            border: 5px solid #8B4513;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+        }
+
+        /* Animated clouds */
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            opacity: 0.8;
+            animation: float 10s infinite linear;
+        }
+
+        .cloud:before {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+        }
+
+        .cloud1 {
+            width: 80px;
+            height: 40px;
+            top: 20px;
+            left: -80px;
+            animation-duration: 15s;
+        }
+
+        .cloud1:before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 10px;
+        }
+
+        .cloud2 {
+            width: 100px;
+            height: 50px;
+            top: 80px;
+            left: -100px;
+            animation-duration: 20s;
+            animation-delay: -5s;
+        }
+
+        .cloud2:before {
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            left: 15px;
+        }
+
+        @keyframes float {
+            from { left: -100px; }
+            to { left: 820px; }
+        }
+
+        /* Tree decoration */
+        .tree {
+            position: absolute;
+            bottom: 0;
+            width: 60px;
+            height: 100px;
+        }
+
+        .tree-trunk {
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            width: 20px;
+            height: 40px;
+            background: #8B4513;
+            border-radius: 10px;
+        }
+
+        .tree-leaves {
+            position: absolute;
+            bottom: 25px;
+            left: 5px;
+            width: 50px;
+            height: 50px;
+            background: #228B22;
+            border-radius: 50%;
+        }
+
+        .tree1 { left: 50px; }
+        .tree2 { right: 50px; }
+
+        .ui-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.9);
+            padding: 15px 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+
+        .score-info {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-label {
+            font-size: 12px;
+            color: #666;
+            display: block;
+        }
+
+        .score-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2E8B57;
+        }
+
+        .timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #FF6347;
+            background: rgba(255,99,71,0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+        }
+
+        .bucket {
+            position: absolute;
+            bottom: 10px;
+            left: 375px;
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(to bottom, #CD853F 0%, #8B4513 100%);
+            border-radius: 0 0 20px 20px;
+            border: 3px solid #654321;
+            cursor: pointer;
+            transition: left 0.1s ease;
+            z-index: 10;
+        }
+
+        .bucket:before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            height: 10px;
+            background: #8B4513;
+            border-radius: 10px;
+        }
+
+        .apple {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF4444 50%, #CC2222 100%);
+            border-radius: 70% 70% 70% 70% / 60% 60% 40% 40%;
+            animation: fall linear;
+            z-index: 5;
+        }
+
+        .apple:before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 12px;
+            width: 6px;
+            height: 8px;
+            background: #228B22;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-20deg);
+        }
+
+        .apple:after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 18px;
+            width: 8px;
+            height: 4px;
+            background: #32CD32;
+            border-radius: 50%;
+            transform: rotate(20deg);
+        }
+
+        .bomb {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background: radial-gradient(circle at 30% 30%, #333, #000);
+            border-radius: 50%;
+            animation: fall linear;
+            z-index: 5;
+        }
+
+        .bomb:before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            width: 3px;
+            height: 12px;
+            background: #8B4513;
+            border-radius: 2px;
+        }
+
+        .bomb:after {
+            content: '💥';
+            position: absolute;
+            top: -2px;
+            left: 12px;
+            font-size: 12px;
+            animation: sparkle 0.5s infinite alternate;
+        }
+
+        .explosion {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #FF4500 0%, #FF6347 30%, #FFD700 60%, transparent 100%);
+            border-radius: 50%;
+            animation: explode 0.8s ease-out forwards;
+            z-index: 20;
+        }
+
+        @keyframes fall {
+            from {
+                top: -30px;
+                transform: rotate(0deg);
+            }
+            to {
+                top: 620px;
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes sparkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .start-screen, .game-over-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 1000;
+        }
+
+        .game-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .game-instructions {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .start-btn, .restart-btn {
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .start-btn:hover, .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .final-score {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #FFD700;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle 1s ease-out forwards;
+        }
+
+        @keyframes sparkle {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) translateY(-50px);
+            }
+        }
+
+        .combo-text {
+            position: absolute;
+            font-size: 20px;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            pointer-events: none;
+            animation: comboFloat 2s ease-out forwards;
+            z-index: 50;
+        }
+
+        @keyframes comboFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-30px) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-60px) scale(0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="gameContainer">
+        <!-- Background elements -->
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        
+        <div class="tree tree1">
+            <div class="tree-trunk"></div>
+            <div class="tree-leaves"></div>
+        </div>
+        <div class="tree tree2">
+            <div class="tree-trunk"></div>
+            <div class="tree-leaves"></div>
+        </div>
+
+        <!-- UI Panel -->
+        <div class="ui-panel">
+            <div class="score-info">
+                <div class="score-item">
+                    <span class="score-label">SCORE</span>
+                    <span class="score-value" id="currentScore">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">BEST</span>
+                    <span class="score-value" id="bestScore">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">COMBO</span>
+                    <span class="score-value" id="combo">0</span>
+                </div>
+            </div>
+            <div class="timer" id="timer">60s</div>
+        </div>
+
+        <!-- Game elements -->
+        <div class="bucket" id="bucket"></div>
+
+        <!-- Start Screen -->
+        <div class="start-screen" id="startScreen">
+            <h1 class="game-title">🍎 Apple Catcher 🍎</h1>
+            <div class="game-instructions">
+                Use arrow keys or mouse to move the bucket<br>
+                Catch falling apples to score points!<br>
+                Build combos for bonus points!<br>
+                <span style="color: #FF6B6B; font-weight: bold;">🚨 Avoid the bombs - they end the game! 🚨</span>
+            </div>
+            <button class="start-btn" onclick="startGame()">START GAME</button>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div class="game-over-screen" id="gameOverScreen" style="display: none;">
+            <h1 class="game-title">Game Over!</h1>
+            <div class="final-score">Final Score: <span id="finalScore">0</span></div>
+            <div class="final-score" id="newRecord" style="display: none;">🏆 NEW RECORD! 🏆</div>
+            <button class="restart-btn" onclick="startGame()">PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <script>
+        let gameState = {
+            isPlaying: false,
+            score: 0,
+            bestScore: localStorage.getItem('appleCatcherBest') || 0,
+            timeLeft: 60,
+            combo: 0,
+            bucketPosition: 375,
+            apples: [],
+            bombs: [],
+            gameSpeed: 1,
+            lastAppleTime: 0,
+            lastBombTime: 0,
+            comboTimer: 0
+        };
+
+        const gameContainer = document.getElementById('gameContainer');
+        const bucket = document.getElementById('bucket');
+        const currentScoreEl = document.getElementById('currentScore');
+        const bestScoreEl = document.getElementById('bestScore');
+        const comboEl = document.getElementById('combo');
+        const timerEl = document.getElementById('timer');
+        const startScreen = document.getElementById('startScreen');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+
+        // Initialize best score display
+        bestScoreEl.textContent = gameState.bestScore;
+
+        // Input handling
+        let keys = {};
+        let mouseX = 0;
+        let isMouseControlling = false;
+
+        document.addEventListener('keydown', (e) => {
+            keys[e.key] = true;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            keys[e.key] = false;
+        });
+
+        gameContainer.addEventListener('mousemove', (e) => {
+            const rect = gameContainer.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            isMouseControlling = true;
+        });
+
+        function startGame() {
+            gameState = {
+                isPlaying: true,
+                score: 0,
+                bestScore: localStorage.getItem('appleCatcherBest') || 0,
+                timeLeft: 60,
+                combo: 0,
+                bucketPosition: 375,
+                apples: [],
+                bombs: [],
+                gameSpeed: 1,
+                lastAppleTime: 0,
+                lastBombTime: 0,
+                comboTimer: 0
+            };
+
+            startScreen.style.display = 'none';
+            gameOverScreen.style.display = 'none';
+            
+            // Clear existing apples and bombs
+            document.querySelectorAll('.apple, .bomb, .explosion, .particle, .combo-text').forEach(item => item.remove());
+            
+            updateUI();
+            gameLoop();
+        }
+
+        function endGame() {
+            gameState.isPlaying = false;
+            
+            // Check for new best score
+            if (gameState.score > gameState.bestScore) {
+                gameState.bestScore = gameState.score;
+                localStorage.setItem('appleCatcherBest', gameState.bestScore);
+                document.getElementById('newRecord').style.display = 'block';
+            } else {
+                document.getElementById('newRecord').style.display = 'none';
+            }
+            
+            document.getElementById('finalScore').textContent = gameState.score;
+            gameOverScreen.style.display = 'flex';
+        }
+
+        function updateBucketPosition() {
+            // Mouse control
+            if (isMouseControlling && mouseX > 0) {
+                gameState.bucketPosition = Math.max(0, Math.min(720, mouseX - 40));
+                isMouseControlling = false;
+            }
+            
+            // Keyboard control
+            if (keys['ArrowLeft'] || keys['a'] || keys['A']) {
+                gameState.bucketPosition = Math.max(0, gameState.bucketPosition - 8);
+            }
+            if (keys['ArrowRight'] || keys['d'] || keys['D']) {
+                gameState.bucketPosition = Math.min(720, gameState.bucketPosition + 8);
+            }
+            
+            bucket.style.left = gameState.bucketPosition + 'px';
+        }
+
+        function createApple() {
+            const apple = document.createElement('div');
+            apple.className = 'apple';
+            
+            const x = Math.random() * 770;
+            apple.style.left = x + 'px';
+            apple.style.top = '-30px';
+            
+            const fallDuration = Math.max(2, 4 - gameState.gameSpeed * 0.5);
+            apple.style.animationDuration = fallDuration + 's';
+            
+            apple.dataset.x = x;
+            apple.dataset.y = -30;
+            apple.dataset.speed = 570 / fallDuration;
+            apple.dataset.type = 'apple';
+            
+            gameContainer.appendChild(apple);
+            gameState.apples.push(apple);
+        }
+
+        function createBomb() {
+            const bomb = document.createElement('div');
+            bomb.className = 'bomb';
+            
+            const x = Math.random() * 765;
+            bomb.style.left = x + 'px';
+            bomb.style.top = '-35px';
+            
+            const fallDuration = Math.max(2.5, 5 - gameState.gameSpeed * 0.5);
+            bomb.style.animationDuration = fallDuration + 's';
+            
+            bomb.dataset.x = x;
+            bomb.dataset.y = -35;
+            bomb.dataset.speed = 605 / fallDuration;
+            bomb.dataset.type = 'bomb';
+            
+            gameContainer.appendChild(bomb);
+            gameState.bombs.push(bomb);
+        }
+
+        function updateObjects() {
+            // Update apples
+            for (let i = gameState.apples.length - 1; i >= 0; i--) {
+                const apple = gameState.apples[i];
+                const currentY = parseFloat(apple.dataset.y) + parseFloat(apple.dataset.speed) * (1/60);
+                apple.dataset.y = currentY;
+                
+                // Check collision with bucket
+                const appleX = parseFloat(apple.dataset.x);
+                const appleY = currentY;
+                
+                if (appleY > 480 && appleY < 540 &&
+                    appleX > gameState.bucketPosition - 10 &&
+                    appleX < gameState.bucketPosition + 90) {
+                    
+                    // Apple caught!
+                    catchApple(apple, i);
+                } else if (currentY > 600) {
+                    // Apple missed
+                    apple.remove();
+                    gameState.apples.splice(i, 1);
+                    
+                    // Reset combo
+                    if (gameState.combo > 0) {
+                        gameState.combo = 0;
+                        gameState.comboTimer = 0;
+                    }
+                }
+            }
+
+            // Update bombs
+            for (let i = gameState.bombs.length - 1; i >= 0; i--) {
+                const bomb = gameState.bombs[i];
+                const currentY = parseFloat(bomb.dataset.y) + parseFloat(bomb.dataset.speed) * (1/60);
+                bomb.dataset.y = currentY;
+                
+                // Check collision with bucket
+                const bombX = parseFloat(bomb.dataset.x);
+                const bombY = currentY;
+                
+                if (bombY > 480 && bombY < 540 &&
+                    bombX > gameState.bucketPosition - 10 &&
+                    bombX < gameState.bucketPosition + 90) {
+                    
+                    // Bomb caught - Game Over!
+                    explodeBomb(bomb, bombX, bombY);
+                    gameState.bombs.splice(i, 1);
+                    endGame();
+                    return;
+                } else if (currentY > 600) {
+                    // Bomb missed - remove it
+                    bomb.remove();
+                    gameState.bombs.splice(i, 1);
+                }
+            }
+        }
+
+        function explodeBomb(bomb, x, y) {
+            // Remove bomb
+            bomb.remove();
+            
+            // Create explosion effect
+            const explosion = document.createElement('div');
+            explosion.className = 'explosion';
+            explosion.style.left = (x - 30) + 'px';
+            explosion.style.top = (y - 30) + 'px';
+            
+            gameContainer.appendChild(explosion);
+            
+            setTimeout(() => explosion.remove(), 800);
+        }
+
+        function catchApple(apple, index) {
+            const appleX = parseFloat(apple.dataset.x);
+            const appleY = parseFloat(apple.dataset.y);
+            
+            // Remove apple
+            apple.remove();
+            gameState.apples.splice(index, 1);
+            
+            // Update score and combo
+            gameState.combo++;
+            gameState.comboTimer = 60; // Reset combo timer (1 second at 60fps)
+            
+            let points = 10;
+            if (gameState.combo > 1) {
+                points += Math.floor(gameState.combo / 2) * 5; // Bonus points for combo
+            }
+            
+            gameState.score += points;
+            
+            // Create particle effect
+            createParticleEffect(appleX + 15, appleY + 15);
+            
+            // Show combo text
+            if (gameState.combo > 2) {
+                showComboText(appleX, appleY);
+            }
+        }
+
+        function createParticleEffect(x, y) {
+            for (let i = 0; i < 8; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = (x + Math.random() * 20 - 10) + 'px';
+                particle.style.top = (y + Math.random() * 20 - 10) + 'px';
+                
+                gameContainer.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 1000);
+            }
+        }
+
+        function showComboText(x, y) {
+            const comboText = document.createElement('div');
+            comboText.className = 'combo-text';
+            comboText.textContent = `COMBO x${gameState.combo}!`;
+            comboText.style.left = x + 'px';
+            comboText.style.top = y + 'px';
+            
+            gameContainer.appendChild(comboText);
+            
+            setTimeout(() => comboText.remove(), 2000);
+        }
+
+        function updateUI() {
+            currentScoreEl.textContent = gameState.score;
+            bestScoreEl.textContent = gameState.bestScore;
+            comboEl.textContent = gameState.combo;
+            timerEl.textContent = Math.ceil(gameState.timeLeft) + 's';
+        }
+
+        function gameLoop() {
+            if (!gameState.isPlaying) return;
+            
+            // Update timer
+            gameState.timeLeft -= 1/60;
+            if (gameState.timeLeft <= 0) {
+                endGame();
+                return;
+            }
+            
+            // Update combo timer
+            if (gameState.comboTimer > 0) {
+                gameState.comboTimer--;
+                if (gameState.comboTimer <= 0 && gameState.combo > 0) {
+                    gameState.combo = 0;
+                }
+            }
+            
+            // Increase game speed over time
+            gameState.gameSpeed = 1 + (60 - gameState.timeLeft) * 0.03;
+            
+            // Create new apples
+            const appleInterval = Math.max(30, 90 - gameState.gameSpeed * 10);
+            if (Date.now() - gameState.lastAppleTime > appleInterval * (1000/60)) {
+                createApple();
+                gameState.lastAppleTime = Date.now();
+            }
+
+            // Create bombs (less frequent than apples)
+            const bombInterval = Math.max(180, 300 - gameState.gameSpeed * 20);
+            if (Date.now() - gameState.lastBombTime > bombInterval * (1000/60)) {
+                createBomb();
+                gameState.lastBombTime = Date.now();
+            }
+            
+            updateBucketPosition();
+            updateObjects();
+            updateUI();
+            
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Prevent context menu on right click
+        gameContainer.addEventListener('contextmenu', (e) => e.preventDefault());
+    </script>
+</body>
+</html>
