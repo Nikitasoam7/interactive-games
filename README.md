@@ -61,7 +61,7 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 - Classic 15-tile shifting logic
 - Responsive, mobile-ready UI
 - Auto Solve feture
-- You can suffle anytime to the numbers
+- Smart Shuffling: Ensures puzzle is always solvable
 
 ---
 
@@ -87,9 +87,11 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 
 👉 [Live Demo Link for bouncing-ball-collect-points](https://nikitasoam7.github.io/interactive-games/bouncing-ball-game/bouncing-ball-collect-points/)
 
-👉 [Live Demo Link for java-interview-prepration-guide](https://nikitasoam7.github.io/interactive-games/bouncing-ball-game/bouncing-ball-racket-game/)
+👉 [Live Demo Link for bouncing-ball-racket-game](https://nikitasoam7.github.io/interactive-games/bouncing-ball-game/bouncing-ball-racket-game/)
 
-👉 [Live Demo Link for interactive-games/number-shifting-game](https://nikitasoam7.github.io/interactive-games/interactive-games/number-shifting-game/)
+👉 [Live Demo Link for number-shifting-game](https://nikitasoam7.github.io/interactive-games/interactive-games/number-shifting-game/)
+
+👉 [Live Demo Link for running-game](https://nikitasoam7.github.io/interactive-games/interactive-games/running-game/)
 
 ---
 

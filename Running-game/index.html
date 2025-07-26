@@ -38,14 +38,39 @@
 
         .background.desert {
             background: linear-gradient(180deg, #87CEEB 0%, #F4A460 30%, #DEB887 100%);
+            background-image: 
+                /* Cactus plants */
+                radial-gradient(ellipse at 15% 70%, #228B22 0%, transparent 20%),
+                radial-gradient(ellipse at 30% 75%, #32CD32 0%, transparent 15%),
+                radial-gradient(ellipse at 60% 65%, #228B22 0%, transparent 18%),
+                radial-gradient(ellipse at 85% 72%, #32CD32 0%, transparent 16%),
+                /* Sand dunes */
+                radial-gradient(ellipse at 40% 85%, #DEB887 0%, transparent 30%),
+                radial-gradient(ellipse at 70% 90%, #D2B48C 0%, transparent 35%);
         }
 
         .background.snow {
             background: linear-gradient(180deg, #B0E0E6 0%, #F0F8FF 30%, #FFFFFF 100%);
+            background-image: 
+                /* Mountains */
+                polygon(0% 60%, 20% 30%, 40% 45%, 60% 25%, 80% 40%, 100% 35%, 100% 100%, 0% 100%),
+                /* Snow caps */
+                radial-gradient(ellipse at 20% 30%, #FFFFFF 0%, transparent 15%),
+                radial-gradient(ellipse at 60% 25%, #F0FFFF 0%, transparent 12%),
+                radial-gradient(ellipse at 80% 40%, #FFFFFF 0%, transparent 10%);
+            clip-path: polygon(0% 60%, 20% 30%, 40% 45%, 60% 25%, 80% 40%, 100% 35%, 100% 100%, 0% 100%);
         }
 
         .background.city {
             background: linear-gradient(180deg, #4682B4 0%, #708090 30%, #2F4F4F 100%);
+            background-image: 
+                /* Buildings */
+                linear-gradient(0deg, #696969 0%, #696969 40%, transparent 40%),
+                linear-gradient(90deg, transparent 10%, #2F4F4F 10%, #2F4F4F 15%, transparent 15%),
+                linear-gradient(90deg, transparent 25%, #696969 25%, #696969 35%, transparent 35%),
+                linear-gradient(90deg, transparent 50%, #2F4F4F 50%, #2F4F4F 60%, transparent 60%),
+                linear-gradient(90deg, transparent 70%, #696969 70%, #696969 80%, transparent 80%),
+                linear-gradient(90deg, transparent 85%, #2F4F4F 85%, #2F4F4F 95%, transparent 95%);
         }
 
         @keyframes scrollBackground {
@@ -113,33 +138,55 @@
             position: absolute;
             left: 100px;
             bottom: 80px;
-            width: 60px;
-            height: 80px;
-            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
-            border-radius: 15px 15px 30px 30px;
-            transition: bottom 0.3s ease;
+            width: 50px;
+            height: 70px;
             z-index: 10;
+            transition: none;
         }
 
         .player::before {
             content: '';
             position: absolute;
-            top: 10px;
-            left: 15px;
-            width: 30px;
-            height: 30px;
-            background: #FFE4B5;
+            top: 8px;
+            left: 12px;
+            width: 26px;
+            height: 26px;
+            background: radial-gradient(circle at 30% 30%, #FFE4B5, #DEB887);
             border-radius: 50%;
-            border: 3px solid #8B4513;
+            border: 2px solid #8B4513;
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.1);
         }
 
         .player::after {
-            content: '👦';
+            content: '';
             position: absolute;
-            top: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 25px;
+            top: 35px;
+            left: 8px;
+            width: 34px;
+            height: 35px;
+            background: linear-gradient(135deg, #4169E1, #1E90FF);
+            border-radius: 8px 8px 15px 15px;
+            border: 2px solid #0000CD;
+        }
+
+        .player-hair {
+            position: absolute;
+            top: 2px;
+            left: 10px;
+            width: 30px;
+            height: 15px;
+            background: #8B4513;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .player-legs {
+            position: absolute;
+            bottom: 0;
+            left: 12px;
+            width: 26px;
+            height: 8px;
+            background: #8B4513;
+            border-radius: 4px;
         }
 
         .player.jumping {
@@ -164,24 +211,44 @@
         .obstacle {
             position: absolute;
             bottom: 80px;
-            width: 40px;
-            height: 60px;
             z-index: 5;
         }
 
         .obstacle.desert {
-            background: linear-gradient(45deg, #8B4513, #A0522D);
-            border-radius: 10px;
+            width: 35px;
+            height: 45px;
+            background: radial-gradient(ellipse, #8B4513, #A0522D);
+            border-radius: 50% 50% 30% 30%;
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .obstacle.snow {
-            background: linear-gradient(45deg, #4682B4, #5F9EA0);
-            border-radius: 50%;
+            width: 40px;
+            height: 35px;
+            background: linear-gradient(135deg, #E0FFFF, #B0E0E6);
+            border-radius: 8px;
+            border: 2px solid #87CEEB;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
         .obstacle.city {
-            background: linear-gradient(45deg, #2F4F4F, #708090);
-            border-radius: 5px;
+            width: 50px;
+            height: 25px;
+            background: linear-gradient(90deg, #696969 0%, #2F4F4F 30%, #696969 60%, #2F4F4F 100%);
+            border-radius: 25px;
+            border: 2px solid #778899;
+            position: relative;
+        }
+
+        .obstacle.city::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 10px;
+            width: 30px;
+            height: 8px;
+            background: #FF4500;
+            border-radius: 4px;
         }
 
         .coin {
