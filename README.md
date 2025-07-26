@@ -72,7 +72,8 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 
 👉 [Live Demo Link for catch-the-apples](https://nikitasoam7.github.io/interactive-games/catch-the-apples/)
 
-👉 [Live Demo Link for java-interview-prepration-guide](https://nikitasoam7.github.io/interactive-games/interactive-games/java-interview-prepration-guide/java-interview-prep-guide-html/)
+👉 [Live Demo Link for java-interview-prepration-guide](https://nikitasoam7.github.io/interactive-games/java-interview-prepration-guid/java-interview-prep-guide-html)
+
 ---
 
 ## 🧑‍💻 Getting Started
