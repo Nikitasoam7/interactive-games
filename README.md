@@ -54,6 +54,9 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 - Move the paddle left & right to catch falling apples
 
 ### 6. 🎾 Bouncing Ball with Racket Game (HTML + CSS + JS)
+`bouncing-ball-racket-game/`
+
+## 📘 Features
 - Real-time collision
 - Score tracking
 - Move the Racket left & right by arrow kays
@@ -61,12 +64,18 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 - Live score tracking, timer, and best score (stored using localStorage)
 
 ### 7. 🔢 Number Shifting Puzzle (HTML + CSS + JS)
+`number-shifting-game/`
+
+## 📘 Features
 - Classic 15-tile shifting logic
 - Responsive, mobile-ready UI
 - Auto Solve feture
 - Smart Shuffling: Ensures puzzle is always solvable
 
 ### 8. 🏃‍♂️ Adveture running Game (HTML + CSS + JS)
+`running-game/`
+
+## 📘 Features
 - Boy character running horizontally with smooth animations
 - Jump mechanic using SPACE or UP ARROW keys
 - Mobile-friendly touch controls
