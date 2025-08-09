@@ -115,6 +115,10 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 
 👉 [Live Demo Link for running-game](https://nikitasoam7.github.io/interactive-games/running-game/)
 
+👉 [Live Demo Link for stone-paper-scissor](https://nikitasoam7.github.io/interactive-games/stone-paper-scissor/)
+
+👉 [Live Demo Link for tic-tak-toe](https://nikitasoam7.github.io/interactive-games/tic-tak-toe/)
+
 ---
 
 ## 🧑‍💻 Getting Started
