@@ -85,6 +85,27 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
     ❄️ Snow: Snowy landscape with ice block obstacles
     🏙️ City: Urban setting with building obstacles
 
+### 9. ✂️ Rock Paper Scissors (HTML + CSS + JS)
+`stone-paper-scissor/`
+
+## 🎮 Features
+- Clean, modern design with glassmorphism effects and smooth animations
+- Real-time score tracking for both player and computer
+- Interactive choice buttons with hover effects and visual feedback
+- Battle display showing both players' choices side by side
+- Color-coded results (green for wins, red for losses, gold for ties)
+- Reset button to start fresh anytime
+
+### 10. 📊 Tic Tac Toe Game (HTML + CSS + JS)
+`tic-tak-toe/`
+
+## 📊 Features that work:
+- Two game modes: Switch between 2-player and vs computer
+- Smart AI: Computer uses minimax algorithm (challenging opponent!)
+- Score tracking: Tracks wins for X, O, and draws
+- Beautiful design: Gradient background with smooth animations
+- Responsive: Works on mobile and desktop
+
 ---
 
 ## 🚀 Technologies Used
