@@ -140,6 +140,8 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 
 👉 [Live Demo Link for tic-tak-toe](https://nikitasoam7.github.io/interactive-games/tic-tak-toe/)
 
+👉 [Live Demo Link for tic-tak-toe](https://nikitasoam7.github.io/interactive-games/snake-game/)
+
 ---
 
 ## 🧑‍💻 Getting Started
