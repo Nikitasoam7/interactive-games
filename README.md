@@ -117,7 +117,7 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 - Pause/Resume: Spacebar or button to pause mid-game
 - Visual Feedback: Screen flashes when eating food
 
-### 🎯 Daily Puzzle Master App 
+### 🎯 Daily Puzzle Master App (HTML + CSS + JS)
 `daily-puzzles-master/`
 
 ## 🧩 Features
