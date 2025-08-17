@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Puzzle Master</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .daily-date {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .streak-counter {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .streak-item {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .puzzle-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .puzzle-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .difficulty-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-tab {
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .difficulty-tab:hover {
+            transform: translateY(-1px);
+        }
+
+        .difficulty-tab.easy { border-color: #4CAF50; color: #4CAF50; }
+        .difficulty-tab.moderate { border-color: #FF9800; color: #FF9800; }
+        .difficulty-tab.hard { border-color: #f44336; color: #f44336; }
+        .difficulty-tab.extreme { border-color: #9C27B0; color: #9C27B0; }
+
+        .difficulty-tab.active.easy { background: #4CAF50; color: white; }
+        .difficulty-tab.active.moderate { background: #FF9800; color: white; }
+        .difficulty-tab.active.hard { background: #f44336; color: white; }
+        .difficulty-tab.active.extreme { background: #9C27B0; color: white; }
+
+        .puzzle-grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .logic-grid {
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        }
+
+        .lateral-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .sudoku-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .puzzle-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+
+        .puzzle-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .puzzle-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .puzzle-content {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .puzzle-clues {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
+
+        .clues-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .clue-item {
+            margin: 8px 0;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .clue-item::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .sudoku-board {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 1px;
+            background: #333;
+            border: 3px solid #333;
+            border-radius: 8px;
+            margin: 15px 0;
+            max-width: 300px;
+            aspect-ratio: 1;
+        }
+
+        .sudoku-cell {
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .sudoku-cell:hover {
+            background: #e3f2fd;
+        }
+
+        .sudoku-cell.given {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .sudoku-cell.user-input {
+            color: #2196F3;
+        }
+
+        .puzzle-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .show-answer-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .hint-btn {
+            background: linear-gradient(45deg, #FF9800, #F57C00);
+            color: white;
+        }
+
+        .next-btn {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .answer-section {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .answer-section.show {
+            display: block;
+        }
+
+        .hint-section {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .hint-section.show {
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .achievement-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .puzzle-section {
+                padding: 20px 15px;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .puzzle-card {
+                padding: 20px 15px;
+            }
+
+            .sudoku-board {
+                max-width: 250px;
+            }
+
+            .streak-counter {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .navigation {
+                justify-content: center;
+            }
+
+            .nav-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>🧩 Daily Puzzle Master</h1>
+            <div class="daily-date" id="dailyDate"></div>
+            <div class="streak-counter">
+                <div class="streak-item">🔥 <span id="currentStreak">0</span> Day Streak</div>
+                <div class="streak-item">🏆 <span id="totalSolved">0</span> Solved</div>
+            </div>
+            <div class="achievement-badge" style="display: none;" id="todayBadge">🌟 Today's Goal Complete!</div>
+        </div>
+
+        <nav class="navigation">
+            <button class="nav-btn active" onclick="showSection('logic')">Logic Grid Puzzles</button>
+            <button class="nav-btn" onclick="showSection('lateral')">Lateral Thinking</button>
+            <button class="nav-btn" onclick="showSection('sudoku')">Sudoku & Numbers</button>
+            <button class="nav-btn" onclick="showSection('stats')">Statistics</button>
+        </nav>
+
+        <!-- Logic Grid Puzzles Section -->
+        <div class="puzzle-section active" id="logicSection">
+            <h2 class="section-title">🎯 Logic Grid Puzzles</h2>
+            <div class="difficulty-tabs">
+                <div class="difficulty-tab easy active" onclick="showDifficulty('logic', 'easy')">Easy</div>
+                <div class="difficulty-tab moderate" onclick="showDifficulty('logic', 'moderate')">Moderate</div>
+                <div class="difficulty-tab hard" onclick="showDifficulty('logic', 'hard')">Hard</div>
+                <div class="difficulty-tab extreme" onclick="showDifficulty('logic', 'extreme')">Extreme</div>
+            </div>
+            <div class="puzzle-grid logic-grid" id="logicPuzzles">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading today's logic puzzles...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lateral Thinking Section -->
+        <div class="puzzle-section" id="lateralSection">
+            <h2 class="section-title">🤔 Lateral Thinking Puzzles</h2>
+            <div class="puzzle-grid lateral-grid" id="lateralPuzzles">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading lateral thinking puzzles...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sudoku & Numbers Section -->
+        <div class="puzzle-section" id="sudokuSection">
+            <h2 class="section-title">🔢 Sudoku & Number Sequences</h2>
+            <div class="puzzle-grid sudoku-grid" id="sudokuPuzzles">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading number puzzles...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="puzzle-section" id="statsSection">
+            <h2 class="section-title">📊 Your Progress</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="dailyProgress" style="width: 0%"></div>
+            </div>
+            <p style="text-align: center; margin-bottom: 20px;">Daily Goal Progress: <span id="progressText">0/13</span> puzzles completed</p>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <span class="stat-number" id="todayCount">0</span>
+                    <div class="stat-label">Today</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="weekCount">0</span>
+                    <div class="stat-label">This Week</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="monthCount">0</span>
+                    <div class="stat-label">This Month</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="totalCount">0</span>
+                    <div class="stat-label">All Time</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="bestStreak">0</span>
+                    <div class="stat-label">Best Streak</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="averageTime">--</span>
+                    <div class="stat-label">Avg. Time</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <h3>🏆 Achievements</h3>
+                <div id="achievementsList">
+                    <!-- Achievements will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class PuzzleApp {
+            constructor() {
+                this.currentSection = 'logic';
+                this.currentDifficulty = 'easy';
+                this.solvedToday = new Set();
+                this.stats = this.loadStats();
+                this.puzzleData = {
+                    logic: {
+                        easy: [],
+                        moderate: [],
+                        hard: [],
+                        extreme: []
+                    },
+                    lateral: [],
+                    sudoku: []
+                };
+                
+                this.init();
+            }
+            
+            init() {
+                this.updateDate();
+                this.loadPuzzles();
+                this.updateStats();
+                this.checkDailyGoal();
+            }
+            
+            updateDate() {
+                const today = new Date();
+                const options = { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                };
+                document.getElementById('dailyDate').textContent = today.toLocaleDateString('en-US', options);
+            }
+            
+            loadStats() {
+                const defaultStats = {
+                    currentStreak: 0,
+                    bestStreak: 0,
+                    totalSolved: 0,
+                    todayCount: 0,
+                    weekCount: 0,
+                    monthCount: 0,
+                    lastPlayDate: null,
+                    solveTimes: []
+                };
+                
+                const saved = localStorage.getItem('puzzleAppStats');
+                return saved ? {...defaultStats, ...JSON.parse(saved)} : defaultStats;
+            }
+            
+            saveStats() {
+                localStorage.setItem('puzzleAppStats', JSON.stringify(this.stats));
+            }
+            
+            loadPuzzles() {
+                // Generate daily puzzles based on date seed
+                const today = new Date().toDateString();
+                const seed = this.hashCode(today);
+                
+                this.generateLogicPuzzles(seed);
+                this.generateLateralPuzzles(seed);
+                this.generateSudokuPuzzles(seed);
+                
+                this.renderPuzzles();
+            }
+            
+            hashCode(str) {
+                let hash = 0;
+                for (let i = 0; i < str.length; i++) {
+                    const char = str.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                return Math.abs(hash);
+            }
+            
+            seededRandom(seed) {
+                const x = Math.sin(seed++) * 10000;
+                return x - Math.floor(x);
+            }
+            
+            generateLogicPuzzles(seed) {
+                const logicTemplates = {
+                    easy: [
+                        {
+                            title: "Pet Owners",
+                            content: "Three friends - Alex, Ben, and Carol - each own different pets and live on different floors.",
+                            clues: [
+                                "Alex doesn't live on the top floor",
+                                "The cat owner lives above the dog owner",
+                                "Ben owns the fish and lives on the middle floor",
+                                "Carol doesn't own the cat"
+                            ],
+                            answer: "Alex: Dog, 1st floor; Ben: Fish, 2nd floor; Carol: Cat, 3rd floor"
+                        },
+                        {
+                            title: "Fruit Preferences",
+                            content: "Four people each prefer a different fruit and work different jobs.",
+                            clues: [
+                                "The teacher likes apples",
+                                "David doesn't work as a nurse",
+                                "The person who likes bananas is a doctor",
+                                "Sarah is the engineer and doesn't like oranges",
+                                "Mike likes oranges"
+                            ],
+                            answer: "Teacher: Apples; Sarah: Engineer, not oranges; David: Doctor, Bananas; Mike: Nurse, Oranges"
+                        }
+                    ],
+                    moderate: [
+                        {
+                            title: "School Subjects",
+                            content: "Five students study different subjects and have different test scores.",
+                            clues: [
+                                "Emma scored higher than the math student",
+                                "The history student scored 85",
+                                "Jake studies science and scored less than Lisa",
+                                "The English student scored 92",
+                                "Tom studies history",
+                                "Lisa doesn't study math or English"
+                            ],
+                            answer: "Complex logic grid requiring systematic elimination"
+                        }
+                    ],
+                    hard: [
+                        {
+                            title: "Conference Schedule",
+                            content: "Six speakers present at different times in different rooms on different topics.",
+                            clues: [
+                                "The AI presentation is before the blockchain talk",
+                                "Dr. Smith presents in Room A but not about cybersecurity",
+                                "The 2 PM slot is in Room B",
+                                "Prof. Johnson's quantum computing talk is at 3 PM",
+                                "The cybersecurity expert presents at 1 PM",
+                                "Room C hosts the morning sessions"
+                            ],
+                            answer: "Complex multi-variable logic puzzle"
+                        }
+                    ],
+                    extreme: [
+                        {
+                            title: "Tournament Brackets",
+                            content: "Eight teams compete in a tournament with specific match conditions.",
+                            clues: [
+                                "Team A never plays on Friday",
+                                "The winner of Match 1 plays Team C in the semifinals",
+                                "Team B defeats exactly two teams",
+                                "The championship is not on Sunday",
+                                "Team D loses in the quarterfinals",
+                                "No team plays more than once per day"
+                            ],
+                            answer: "Multi-layered tournament logic requiring advanced deduction"
+                        }
+                    ]
+                };
+                
+                Object.keys(logicTemplates).forEach(difficulty => {
+                    this.puzzleData.logic[difficulty] = this.shuffleArray([...logicTemplates[difficulty]], seed);
+                });
+            }
+            
+            generateLateralPuzzles(seed) {
+                const lateralTemplates = [
+                    {
+                        title: "The Desert Traveler",
+                        content: "A man is found dead in the desert, wearing only his underwear, with a small pack on his back. There are no footprints around him except his own. How did he die?",
+                        hint: "Think about how someone might end up in the desert wearing so little...",
+                        answer: "His parachute failed to open. The pack contains his unopened parachute."
+                    },
+                    {
+                        title: "The Elevator Mystery",
+                        content: "A man lives on the 20th floor of an apartment building. Every morning he takes the elevator to the ground floor. When he comes home, he takes the elevator to the 10th floor and walks the rest of the way... except on rainy days.",
+                        hint: "Consider physical limitations and how rain might change the situation...",
+                        answer: "The man is too short to reach the button for the 20th floor, except when he has an umbrella on rainy days."
+                    },
+                    {
+                        title: "The Silent Phone",
+                        content: "A woman calls a number, someone answers and says hello, but she hangs up immediately. She was not making a prank call, and she got the information she needed. Why?",
+                        hint: "What information can you get just from someone answering?",
+                        answer: "She was checking if the power was back on at her house by calling her answering machine."
+                    },
+                    {
+                        title: "The Backwards Walker",
+                        content: "Every day, a man walks backwards to work and forwards home. He's not superstitious or eccentric. Why does he do this?",
+                        hint: "Think about his job and what walking backwards might achieve...",
+                        answer: "He's a street cleaner who uses a push broom, walking backwards to sweep effectively."
+                    },
+                    {
+                        title: "The Window Washer",
+                        content: "A window washer is cleaning windows on the 25th floor of a building. He slips and falls, but is completely unharmed. He wasn't wearing safety equipment. How is this possible?",
+                        hint: "Where exactly was he when he fell?",
+                        answer: "He was cleaning windows inside the building and fell inward onto the floor."
+                    }
+                ];
+                
+                this.puzzleData.lateral = this.shuffleArray([...lateralTemplates], seed).slice(0, 3);
+            }
+            
+            generateSudokuPuzzles(seed) {
+                // Generate 5 different types of number puzzles
+                this.puzzleData.sudoku = [
+                    this.generateSudoku(seed),
+                    this.generateNumberSequence(seed + 1),
+                    this.generateMathPuzzle(seed + 2),
+                    this.generateLogicalSequence(seed + 3),
+                    this.generatePatternPuzzle(seed + 4)
+                ];
+            }
+            
+            generateSudoku(seed) {
+                // Simplified Sudoku generator
+                const puzzle = Array(9).fill().map(() => Array(9).fill(0));
+                const solution = Array(9).fill().map(() => Array(9).fill(0));
+                
+                // Fill some cells with a valid pattern (simplified)
+                const pattern = [
+                    [5,3,0,0,7,0,0,0,0],
+                    [6,0,0,1,9,5,0,0,0],
+                    [0,9,8,0,0,0,0,6,0],
+                    [8,0,0,0,6,0,0,0,3],
+                    [4,0,0,8,0,3,0,0,1],
+                    [7,0,0,0,2,0,0,0,6],
+                    [0,6,0,0,0,0,2,8,0],
+                    [0,0,0,4,1,9,0,0,5],
+                    [0,0,0,0,8,0,0,7,9]
+                ];
+                
+                return {
+                    title: "Daily Sudoku",
+                    type: "sudoku",
+                    puzzle: pattern,
+                    solution: [
+                        [5,3,4,6,7,8,9,1,2],
+                        [6,7,2,1,9,5,3,4,8],
+                        [1,9,8,3,4,2,5,6,7],
+                        [8,5,9,7,6,1,4,2,3],
+                        [4,2,6,8,5,3,7,9,1],
+                        [7,1,3,9,2,4,8,5,6],
+                        [9,6,1,5,3,7,2,8,4],
+                        [2,8,7,4,1,9,6,3,5],
+                        [3,4,5,2,8,6,1,7,9]
+                    ]
+                };
+            }
+            
+            generateNumberSequence(seed) {
+                const sequences = [
+                    {
+                        title: "Number Sequence #1",
+                        type: "sequence",
+                        content: "Find the next number in the sequence: 2, 6, 12, 20, 30, ?",
+                        answer: "42 (n × (n+1) where n starts at 2)",
+                        hint: "Look at the differences between consecutive numbers"
+                    },
+                    {
+                        title: "Number Sequence #2",
+                        type: "sequence", 
+                        content: "Complete the sequence: 1, 1, 2, 3, 5, 8, 13, ?",
+                        answer: "21 (Fibonacci sequence)",
+                        hint: "Each number is the sum of the two preceding ones"
+                    }
+                ];
+                
+                return sequences[seed % sequences.length];
+            }
+            
+            generateMathPuzzle(seed) {
+                const puzzles = [
+                    {
+                        title: "Missing Number",
+                        type: "math",
+                        content: "If 3 × 4 = 21, 5 × 6 = 41, 7 × 8 = 71, then 9 × 10 = ?",
+                        answer: "111 (Pattern: multiply and add the first number twice)",
+                        hint: "Look at the pattern in how the results relate to the factors"
+                    },
+                    {
+                        title: "Number Grid",
+                        type: "math",
+                        content: "Fill in the missing number:\n[2][4][8]\n[3][6][12]\n[4][8][?]",
+                        answer: "16 (Each row: first number × second number = third number)",
+                        hint: "Look at the relationship within each row"
+                    }
+                ];
+                
+                return puzzles[seed % puzzles.length];
+            }
+            
+            generateLogicalSequence(seed) {
+                return {
+                    title: "Letter-Number Code",
+                    type: "code",
+                    content: "If CAT = 312, DOG = 415, what does BIRD equal?",
+                    answer: "2918 (A=1, B=2, C=3, D=4, E=5, F=6, G=7, H=8, I=9, etc.)",
+                    hint: "Each letter corresponds to its position in the alphabet"
+                };
+            }
+            
+            generatePatternPuzzle(seed) {
+                const patterns = [
+                    {
+                        title: "Shape Pattern",
+                        type: "pattern",
+                        content: "What comes next in the pattern: ○●○○●○○○●○○○○?",
+                        answer: "●○○○○○ (Pattern increases: 1 white, 1 black, 2 white, 1 black, 3 white, 1 black...)",
+                        hint: "Count the white circles between black ones"
+                    },
+                    {
+                        title: "Number Grid Pattern",
+                        type: "pattern",
+                        content: "Fill the missing number:\n1  4  9\n16 25 36\n49 64 ?",
+                        answer: "81 (Perfect squares: 1², 2², 3²... 9²)",
+                        hint: "Each number is a perfect square"
+                    }
+                ];
+                
+                return patterns[seed % patterns.length];
+            }
+            
+            shuffleArray(array, seed) {
+                const shuffled = [...array];
+                let currentSeed = seed;
+                
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    currentSeed = (currentSeed * 9301 + 49297) % 233280;
+                    const j = Math.floor((currentSeed / 233280) * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                
+                return shuffled;
+            }
+            
+            renderPuzzles() {
+                this.renderLogicPuzzles();
+                this.renderLateralPuzzles();
+                this.renderSudokuPuzzles();
+            }
+            
+            renderLogicPuzzles() {
+                const container = document.getElementById('logicPuzzles');
+                const difficulty = this.currentDifficulty;
+                const puzzles = this.puzzleData.logic[difficulty];
+                
+                container.innerHTML = puzzles.map((puzzle, index) => `
+                    <div class="puzzle-card">
+                        <div class="puzzle-title">${puzzle.title}</div>
+                        <div class="puzzle-content">${puzzle.content}</div>
+                        <div class="puzzle-clues">
+                            <div class="clues-title">Clues:</div>
+                            ${puzzle.clues.map(clue => `<div class="clue-item">${clue}</div>`).join('')}
+                        </div>
+                        <div class="puzzle-actions">
+                            <button class="action-btn hint-btn" onclick="app.showHint('logic-${difficulty}-${index}')">💡 Hint</button>
+                            <button class="action-btn show-answer-btn" onclick="app.showAnswer('logic-${difficulty}-${index}')">🔍 Show Answer</button>
+                            <button class="action-btn next-btn" onclick="app.markSolved('logic-${difficulty}-${index}')">✅ Mark Solved</button>
+                        </div>
+                        <div class="hint-section" id="hint-logic-${difficulty}-${index}">
+                            <strong>💡 Hint:</strong> Start by identifying what you know for certain from the clues, then use process of elimination.
+                        </div>
+                        <div class="answer-section" id="answer-logic-${difficulty}-${index}">
+                            <strong>🎯 Answer:</strong> ${puzzle.answer}
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            renderLateralPuzzles() {
+                const container = document.getElementById('lateralPuzzles');
+                const puzzles = this.puzzleData.lateral;
+                
+                container.innerHTML = puzzles.map((puzzle, index) => `
+                    <div class="puzzle-card">
+                        <div class="puzzle-title">${puzzle.title}</div>
+                        <div class="puzzle-content">${puzzle.content}</div>
+                        <div class="puzzle-actions">
+                            <button class="action-btn hint-btn" onclick="app.showHint('lateral-${index}')">💡 Hint</button>
+                            <button class="action-btn show-answer-btn" onclick="app.showAnswer('lateral-${index}')">🔍 Show Answer</button>
+                            <button class="action-btn next-btn" onclick="app.markSolved('lateral-${index}')">✅ Mark Solved</button>
+                        </div>
+                        <div class="hint-section" id="hint-lateral-${index}">
+                            <strong>💡 Hint:</strong> ${puzzle.hint}
+                        </div>
+                        <div class="answer-section" id="answer-lateral-${index}">
+                            <strong>🎯 Answer:</strong> ${puzzle.answer}
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            renderSudokuPuzzles() {
+                const container = document.getElementById('sudokuPuzzles');
+                const puzzles = this.puzzleData.sudoku;
+                
+                container.innerHTML = puzzles.map((puzzle, index) => {
+                    if (puzzle.type === 'sudoku') {
+                        return this.renderSudokuBoard(puzzle, index);
+                    } else {
+                        return `
+                            <div class="puzzle-card">
+                                <div class="puzzle-title">${puzzle.title}</div>
+                                <div class="puzzle-content">${puzzle.content}</div>
+                                <div class="puzzle-actions">
+                                    <button class="action-btn hint-btn" onclick="app.showHint('sudoku-${index}')">💡 Hint</button>
+                                    <button class="action-btn show-answer-btn" onclick="app.showAnswer('sudoku-${index}')">🔍 Show Answer</button>
+                                    <button class="action-btn next-btn" onclick="app.markSolved('sudoku-${index}')">✅ Mark Solved</button>
+                                </div>
+                                <div class="hint-section" id="hint-sudoku-${index}">
+                                    <strong>💡 Hint:</strong> ${puzzle.hint}
+                                </div>
+                                <div class="answer-section" id="answer-sudoku-${index}">
+                                    <strong>🎯 Answer:</strong> ${puzzle.answer}
+                                </div>
+                            </div>
+                        `;
+                    }
+                }).join('');
+            }
+            
+            renderSudokuBoard(puzzle, index) {
+                const boardHtml = puzzle.puzzle.map((row, rowIndex) => 
+                    row.map((cell, colIndex) => {
+                        const cellId = `sudoku-${index}-${rowIndex}-${colIndex}`;
+                        const isGiven = cell !== 0;
+                        return `<div class="sudoku-cell ${isGiven ? 'given' : ''}" 
+                                     id="${cellId}" 
+                                     onclick="app.selectSudokuCell('${cellId}', ${index})"
+                                     data-row="${rowIndex}" 
+                                     data-col="${colIndex}">
+                                    ${cell !== 0 ? cell : ''}
+                                </div>`;
+                    }).join('')
+                ).join('');
+                
+                return `
+                    <div class="puzzle-card">
+                        <div class="puzzle-title">${puzzle.title}</div>
+                        <div class="sudoku-board" id="sudoku-board-${index}">
+                            ${boardHtml}
+                        </div>
+                        <div class="puzzle-actions">
+                            <button class="action-btn hint-btn" onclick="app.getSudokuHint(${index})">💡 Hint</button>
+                            <button class="action-btn show-answer-btn" onclick="app.solveSudoku(${index})">🔍 Solve</button>
+                            <button class="action-btn next-btn" onclick="app.markSolved('sudoku-${index}')">✅ Complete</button>
+                        </div>
+                        <div style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: #666;">
+                            Click on empty cells to enter numbers 1-9
+                        </div>
+                    </div>
+                `;
+            }
+            
+            selectSudokuCell(cellId, puzzleIndex) {
+                // Remove previous selection
+                document.querySelectorAll('.sudoku-cell').forEach(cell => {
+                    cell.style.background = cell.classList.contains('given') ? '#f5f5f5' : 'white';
+                });
+                
+                const cell = document.getElementById(cellId);
+                if (cell.classList.contains('given')) return;
+                
+                cell.style.background = '#e3f2fd';
+                
+                // Create number input
+                const currentValue = cell.textContent;
+                const input = prompt('Enter number (1-9) or leave empty to clear:', currentValue);
+                
+                if (input === null) return; // User cancelled
+                
+                if (input === '' || input === '0') {
+                    cell.textContent = '';
+                    cell.classList.remove('user-input');
+                } else if (input >= '1' && input <= '9') {
+                    cell.textContent = input;
+                    cell.classList.add('user-input');
+                    
+                    // Check if puzzle is complete
+                    this.checkSudokuCompletion(puzzleIndex);
+                }
+                
+                cell.style.background = 'white';
+            }
+            
+            checkSudokuCompletion(puzzleIndex) {
+                const cells = document.querySelectorAll(`#sudoku-board-${puzzleIndex} .sudoku-cell`);
+                const isFull = Array.from(cells).every(cell => cell.textContent !== '');
+                
+                if (isFull) {
+                    setTimeout(() => {
+                        alert('🎉 Congratulations! Sudoku completed!');
+                        this.markSolved(`sudoku-${puzzleIndex}`);
+                    }, 100);
+                }
+            }
+            
+            getSudokuHint(puzzleIndex) {
+                const puzzle = this.puzzleData.sudoku[puzzleIndex];
+                if (puzzle.type !== 'sudoku') return;
+                
+                // Find first empty cell and show its solution
+                const cells = document.querySelectorAll(`#sudoku-board-${puzzleIndex} .sudoku-cell`);
+                for (let i = 0; i < cells.length; i++) {
+                    const cell = cells[i];
+                    if (!cell.classList.contains('given') && cell.textContent === '') {
+                        const row = parseInt(cell.dataset.row);
+                        const col = parseInt(cell.dataset.col);
+                        const hintValue = puzzle.solution[row][col];
+                        
+                        alert(`💡 Hint: Cell at row ${row + 1}, column ${col + 1} should be ${hintValue}`);
+                        break;
+                    }
+                }
+            }
+            
+            solveSudoku(puzzleIndex) {
+                const puzzle = this.puzzleData.sudoku[puzzleIndex];
+                if (puzzle.type !== 'sudoku') return;
+                
+                const cells = document.querySelectorAll(`#sudoku-board-${puzzleIndex} .sudoku-cell`);
+                cells.forEach((cell, index) => {
+                    const row = Math.floor(index / 9);
+                    const col = index % 9;
+                    
+                    if (!cell.classList.contains('given')) {
+                        cell.textContent = puzzle.solution[row][col];
+                        cell.classList.add('user-input');
+                        cell.style.color = '#4CAF50';
+                    }
+                });
+                
+                setTimeout(() => this.markSolved(`sudoku-${puzzleIndex}`), 500);
+            }
+            
+            showHint(puzzleId) {
+                const hintElement = document.getElementById(`hint-${puzzleId}`);
+                if (hintElement) {
+                    hintElement.classList.toggle('show');
+                }
+            }
+            
+            showAnswer(puzzleId) {
+                const answerElement = document.getElementById(`answer-${puzzleId}`);
+                if (answerElement) {
+                    answerElement.classList.toggle('show');
+                    // Auto-mark as solved when answer is shown
+                    setTimeout(() => this.markSolved(puzzleId), 1000);
+                }
+            }
+            
+            markSolved(puzzleId) {
+                if (this.solvedToday.has(puzzleId)) return;
+                
+                this.solvedToday.add(puzzleId);
+                this.stats.todayCount++;
+                this.stats.totalSolved++;
+                
+                // Add solve time tracking
+                const now = new Date();
+                if (!this.sessionStart) this.sessionStart = now;
+                const solveTime = (now - this.sessionStart) / 1000 / 60; // minutes
+                this.stats.solveTimes.push(solveTime);
+                
+                this.updateStats();
+                this.saveStats();
+                this.checkDailyGoal();
+                this.checkAchievements();
+                
+                // Visual feedback
+                this.showSolvedAnimation(puzzleId);
+            }
+            
+            showSolvedAnimation(puzzleId) {
+                // Find the puzzle card and add success animation
+                const puzzleCard = document.querySelector(`[onclick*="${puzzleId}"]`)?.closest('.puzzle-card');
+                if (puzzleCard) {
+                    puzzleCard.style.background = 'linear-gradient(45deg, #4CAF50, #45a049)';
+                    puzzleCard.style.color = 'white';
+                    puzzleCard.style.transform = 'scale(1.02)';
+                    
+                    setTimeout(() => {
+                        puzzleCard.style.background = 'white';
+                        puzzleCard.style.color = '#333';
+                        puzzleCard.style.transform = 'scale(1)';
+                        puzzleCard.style.borderLeft = '5px solid #4CAF50';
+                    }, 1500);
+                }
+            }
+            
+            updateStats() {
+                // Update current streak
+                const today = new Date().toDateString();
+                const yesterday = new Date(Date.now() - 86400000).toDateString();
+                
+                if (this.stats.lastPlayDate === today) {
+                    // Already played today
+                } else if (this.stats.lastPlayDate === yesterday || !this.stats.lastPlayDate) {
+                    // Consecutive day or first time
+                    if (this.stats.todayCount > 0) {
+                        this.stats.currentStreak++;
+                        if (this.stats.currentStreak > this.stats.bestStreak) {
+                            this.stats.bestStreak = this.stats.currentStreak;
+                        }
+                    }
+                } else {
+                    // Streak broken
+                    this.stats.currentStreak = this.stats.todayCount > 0 ? 1 : 0;
+                }
+                
+                this.stats.lastPlayDate = today;
+                
+                // Calculate averages
+                const avgTime = this.stats.solveTimes.length > 0 
+                    ? this.stats.solveTimes.reduce((a, b) => a + b, 0) / this.stats.solveTimes.length 
+                    : 0;
+                
+                // Update UI
+                document.getElementById('currentStreak').textContent = this.stats.currentStreak;
+                document.getElementById('totalSolved').textContent = this.stats.totalSolved;
+                document.getElementById('todayCount').textContent = this.stats.todayCount;
+                document.getElementById('weekCount').textContent = this.calculateWeekCount();
+                document.getElementById('monthCount').textContent = this.calculateMonthCount();
+                document.getElementById('totalCount').textContent = this.stats.totalSolved;
+                document.getElementById('bestStreak').textContent = this.stats.bestStreak;
+                document.getElementById('averageTime').textContent = avgTime > 0 ? `${avgTime.toFixed(1)}m` : '--';
+            }
+            
+            calculateWeekCount() {
+                // This is simplified - in a real app, you'd store daily counts
+                return Math.min(this.stats.todayCount * 7, this.stats.totalSolved);
+            }
+            
+            calculateMonthCount() {
+                // This is simplified - in a real app, you'd store daily counts
+                return Math.min(this.stats.todayCount * 30, this.stats.totalSolved);
+            }
+            
+            checkDailyGoal() {
+                const totalDaily = 13; // 3 logic + 3 lateral + 5 sudoku + 2 bonus
+                const progress = Math.min((this.stats.todayCount / totalDaily) * 100, 100);
+                
+                document.getElementById('dailyProgress').style.width = progress + '%';
+                document.getElementById('progressText').textContent = `${this.stats.todayCount}/${totalDaily}`;
+                
+                if (this.stats.todayCount >= totalDaily) {
+                    document.getElementById('todayBadge').style.display = 'inline-block';
+                }
+            }
+            
+            checkAchievements() {
+                const achievements = [];
+                
+                if (this.stats.todayCount >= 5) achievements.push('🌟 Daily Explorer');
+                if (this.stats.todayCount >= 10) achievements.push('🏆 Daily Master');
+                if (this.stats.todayCount >= 13) achievements.push('👑 Daily Champion');
+                if (this.stats.currentStreak >= 7) achievements.push('🔥 Week Warrior');
+                if (this.stats.currentStreak >= 30) achievements.push('💎 Monthly Master');
+                if (this.stats.totalSolved >= 50) achievements.push('🎯 Puzzle Solver');
+                if (this.stats.totalSolved >= 100) achievements.push('🧠 Logic Master');
+                if (this.stats.totalSolved >= 500) achievements.push('🌟 Puzzle Legend');
+                
+                document.getElementById('achievementsList').innerHTML = 
+                    achievements.map(achievement => 
+                        `<div class="achievement-badge">${achievement}</div>`
+                    ).join('');
+            }
+            
+            showSection(section) {
+                // Update navigation
+                document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                
+                // Show section
+                document.querySelectorAll('.puzzle-section').forEach(sec => sec.classList.remove('active'));
+                document.getElementById(section + 'Section').classList.add('active');
+                
+                this.currentSection = section;
+            }
+            
+            showDifficulty(section, difficulty) {
+                if (section !== 'logic') return;
+                
+                // Update difficulty tabs
+                document.querySelectorAll('.difficulty-tab').forEach(tab => tab.classList.remove('active'));
+                event.target.classList.add('active');
+                
+                this.currentDifficulty = difficulty;
+                this.renderLogicPuzzles();
+            }
+        }
+        
+        // Global functions
+        function showSection(section) {
+            app.showSection(section);
+        }
+        
+        function showDifficulty(section, difficulty) {
+            app.showDifficulty(section, difficulty);
+        }
+        
+        // Initialize app
+        let app;
+        window.addEventListener('load', () => {
+            app = new PuzzleApp();
+        });
+        
+        // Service Worker for offline capability (optional)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => {
+                // Service worker registration failed - not critical
+            });
+        }
+    </script>
+</body>
+</html>
