@@ -117,7 +117,7 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 - Pause/Resume: Spacebar or button to pause mid-game
 - Visual Feedback: Screen flashes when eating food
 
-### 🎯 Daily Puzzle Master App (HTML + CSS + JS)
+### 12. 🎯 Daily Puzzle Master App (HTML + CSS + JS)
 `daily-puzzles-master/`
 
 ## 🧩 Features
@@ -127,7 +127,7 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 - Daily System,Statistics & Achievements, Mobile-Optimized Design, Interactive Elements, Daily Updates
 - Gamification: Daily goal completion (13,puzzles)
 
-### ⌨️ English Vocabulary Trainer (HTML + CSS + JS)
+### 13. ⌨️ English Vocabulary Trainer (HTML + CSS + JS)
 `english-vocabulary-trainer/`
 
 ## 🎯 Features
