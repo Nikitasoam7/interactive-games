@@ -96,15 +96,36 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 - Color-coded results (green for wins, red for losses, gold for ties)
 - Reset button to start fresh anytime
 
-### 10. 📊 Tic Tac Toe Game (HTML + CSS + JS)
+### 10. 🤖 Tic Tac Toe Game (HTML + CSS + JS)
 `tic-tak-toe/`
 
-## 📊 Features that work:
+## 📊 Features
 - Two game modes: Switch between 2-player and vs computer
 - Smart AI: Computer uses minimax algorithm (challenging opponent!)
 - Score tracking: Tracks wins for X, O, and draws
 - Beautiful design: Gradient background with smooth animations
 - Responsive: Works on mobile and desktop
+
+### 11. 🐍 Classic Snake Game (HTML + CSS + JS)
+`snake-game/`
+
+## 🎮 Features
+- Stunning Visuals: Gradient backgrounds, glowing effects, and animated food
+- Smooth Controls: Arrow keys, WASD, or touch buttons for mobile
+- Progressive Difficulty: Speed increases every 50 points
+- High Score System: Persistent storage of your best score
+- Pause/Resume: Spacebar or button to pause mid-game
+- Visual Feedback: Screen flashes when eating food
+
+### 🎯 Daily Puzzle Master App 
+`daily-puzzles-master/`
+
+## 🧩 Features
+- Logic Grid Puzzles: 4 Difficulty Levels: Easy, Moderate, Hard, Extreme
+- Lateral Thinking Puzzles: Creative "situation puzzles" like "man in the desert" type riddles
+- Sudoku & Number Puzzles: Interactive Sudoku with click-to-input functionality, Number sequences
+- Daily System,Statistics & Achievements, Mobile-Optimized Design, Interactive Elements, Daily Updates
+- Gamification: Daily goal completion (13,puzzles)
 
 ---
 
@@ -141,6 +162,8 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 👉 [Live Demo Link for tic-tak-toe](https://nikitasoam7.github.io/interactive-games/tic-tak-toe/)
 
 👉 [Live Demo Link for snake-game](https://nikitasoam7.github.io/interactive-games/snake-game/)
+
+👉 [Live Demo Link for daily-puzzles-master](https://nikitasoam7.github.io/interactive-games/daily-puzzles-master/)
 
 ---
 
