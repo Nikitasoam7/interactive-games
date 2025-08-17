@@ -127,6 +127,17 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 - Daily System,Statistics & Achievements, Mobile-Optimized Design, Interactive Elements, Daily Updates
 - Gamification: Daily goal completion (13,puzzles)
 
+### ⌨️ English Vocabulary Trainer (HTML + CSS + JS)
+`english-vocabulary-trainer/`
+
+## 🎯 Features
+- 7+7+7 Weekly Structure (7 Technical Words, 7 Professional Phrases, 7 Business Idioms)
+- Five Main Sections: Dashboard, Learn, Practice, Quiz and Stats 
+- Interactive Features: Text-to-Speech, Flip Cards, Typing Practice,  Smart Quizzes and  Visual Progress
+- Gamification Elements: Streak Counter, Achievement System, Progress Circles, Accuracy Metrics
+- Mobile-Optimized Design
+- IT-Specific Content
+- Progress Tracking
 ---
 
 ## 🚀 Technologies Used
@@ -165,6 +176,7 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 
 👉 [Live Demo Link for daily-puzzles-master](https://nikitasoam7.github.io/interactive-games/daily-puzzles-master/)
 
+👉 [Live Demo Link for `english-vocabulary-trainer](https://nikitasoam7.github.io/interactive-games/english-vocabulary-trainer/)
 ---
 
 ## 🧑‍💻 Getting Started

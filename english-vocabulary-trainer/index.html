@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Professional English Vocabulary Trainer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            font-weight: 500;
+        }
+
+        .nav-tab.active {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .content-section {
+            display: none;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .progress-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .progress-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .progress-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .weekly-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .day-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #ddd;
+            background: white;
+            margin: 0 auto;
+        }
+
+        .day-circle.completed {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border-color: #4CAF50;
+            transform: scale(1.1);
+        }
+
+        .day-circle.current {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+            border-color: #FF9800;
+        }
+
+        .learning-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .card.word {
+            border-left-color: #4CAF50;
+        }
+
+        .card.phrase {
+            border-left-color: #FF9800;
+        }
+
+        .card.idiom {
+            border-left-color: #9C27B0;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-type {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .card.word .card-type {
+            background: #4CAF50;
+        }
+
+        .card.phrase .card-type {
+            background: #FF9800;
+        }
+
+        .card.idiom .card-type {
+            background: #9C27B0;
+        }
+
+        .difficulty {
+            display: flex;
+            gap: 3px;
+        }
+
+        .difficulty-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .difficulty-dot.active {
+            background: #FF5722;
+        }
+
+        .card-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .pronunciation {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .definition {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .example {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .synonyms {
+            margin-top: 15px;
+        }
+
+        .synonyms strong {
+            color: #667eea;
+        }
+
+        .practice-modes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .practice-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .practice-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .quiz-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .quiz-question {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .quiz-option {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .quiz-option:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .flashcard {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.6s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+
+        .typing-practice {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .typing-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .typing-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .accuracy-meter {
+            background: #f8f9fa;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .accuracy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .learning-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .practice-modes {
+                grid-template-columns: 1fr;
+            }
+
+            .weekly-calendar {
+                grid-template-columns: repeat(7, 1fr);
+                gap: 5px;
+            }
+
+            .day-circle {
+                width: 45px;
+                height: 45px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .audio-btn {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .audio-btn:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🚀 IT Professional English Trainer</h1>
+            <p>Master technical vocabulary, phrases, and idioms for your IT career</p>
+        </header>
+
+        <nav class="nav-tabs">
+            <div class="nav-tab active" onclick="showSection('dashboard')">📊 Dashboard</div>
+            <div class="nav-tab" onclick="showSection('learn')">📚 Learn</div>
+            <div class="nav-tab" onclick="showSection('practice')">🎮 Practice</div>
+            <div class="nav-tab" onclick="showSection('quiz')">🧠 Quiz</div>
+            <div class="nav-tab" onclick="showSection('stats')">📈 Stats</div>
+        </nav>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="content-section active">
+            <div class="progress-overview">
+                <div class="progress-card">
+                    <h3 id="current-streak">7</h3>
+                    <p>Day Streak</p>
+                </div>
+                <div class="progress-card">
+                    <h3 id="words-learned">45</h3>
+                    <p>Words Learned</p>
+                </div>
+                <div class="progress-card">
+                    <h3 id="quiz-accuracy">87%</h3>
+                    <p>Quiz Accuracy</p>
+                </div>
+                <div class="progress-card">
+                    <h3 id="study-time">2.5h</h3>
+                    <p>Study Time</p>
+                </div>
+            </div>
+
+            <h2 style="margin-bottom: 20px; color: #333;">📅 Weekly Progress</h2>
+            <div class="weekly-calendar">
+                <div class="day-circle completed">Mon</div>
+                <div class="day-circle completed">Tue</div>
+                <div class="day-circle completed">Wed</div>
+                <div class="day-circle current">Thu</div>
+                <div class="day-circle">Fri</div>
+                <div class="day-circle">Sat</div>
+                <div class="day-circle">Sun</div>
+            </div>
+
+            <h2 style="margin-bottom: 20px; color: #333;">🎯 Today's Goal</h2>
+            <div class="progress-overview">
+                <div class="progress-card">
+                    <h3>1/1</h3>
+                    <p>Word Complete ✅</p>
+                </div>
+                <div class="progress-card">
+                    <h3>1/1</h3>
+                    <p>Phrase Complete ✅</p>
+                </div>
+                <div class="progress-card">
+                    <h3>0/1</h3>
+                    <p>Idiom Remaining</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learn Section -->
+        <div id="learn" class="content-section">
+            <h2 style="margin-bottom: 30px; color: #333;">📚 Today's Learning Content</h2>
+            
+            <div class="learning-cards" id="learning-content">
+                <!-- Content will be dynamically loaded -->
+            </div>
+        </div>
+
+        <!-- Practice Section -->
+        <div id="practice" class="content-section">
+            <h2 style="margin-bottom: 30px; color: #333;">🎮 Practice Modes</h2>
+            
+            <div class="practice-modes">
+                <button class="practice-btn" onclick="startFlashcards()">
+                    🎴 Flashcards
+                </button>
+                <button class="practice-btn" onclick="startTypingPractice()">
+                    ⌨️ Typing Practice
+                </button>
+                <button class="practice-btn" onclick="startPronunciation()">
+                    🎧 Pronunciation
+                </button>
+                <button class="practice-btn" onclick="reviewWeek()">
+                    📝 Weekly Review
+                </button>
+            </div>
+
+            <div id="practice-area">
+                <!-- Practice content will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz" class="content-section">
+            <h2 style="margin-bottom: 30px; color: #333;">🧠 Daily Quiz</h2>
+            
+            <div class="quiz-container" id="quiz-container">
+                <!-- Quiz content will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div id="stats" class="content-section">
+            <h2 style="margin-bottom: 30px; color: #333;">📈 Learning Statistics</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">156</span>
+                    <span>Total Items Learned</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">21</span>
+                    <span>Consecutive Days</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">89%</span>
+                    <span>Average Accuracy</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">47</span>
+                    <span>Hours Studied</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">52</span>
+                    <span>Words Mastered</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">48</span>
+                    <span>Phrases Learned</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">43</span>
+                    <span>Idioms Acquired</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">7</span>
+                    <span>Weeks Completed</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample IT vocabulary data
+        const vocabularyData = {
+            words: [
+                {
+                    term: "Implementation",
+                    pronunciation: "/ˌɪmplɪmenˈteɪʃən/",
+                    definition: "The process of putting a decision or plan into effect; execution of a software solution or system.",
+                    example: "The implementation of the new authentication system took three weeks to complete and required extensive testing.",
+                    synonyms: "execution, deployment, installation, realization",
+                    difficulty: 2
+                },
+                {
+                    term: "Scalable",
+                    pronunciation: "/ˈskeɪləbəl/",
+                    definition: "Capable of being easily expanded or upgraded to handle increased load or demand.",
+                    example: "We need to design a scalable architecture that can handle millions of users without performance degradation.",
+                    synonyms: "expandable, flexible, adaptable, extensible",
+                    difficulty: 2
+                },
+                {
+                    term: "Deprecated",
+                    pronunciation: "/ˈdeprəˌkeɪtɪd/",
+                    definition: "A software feature or function that is outdated and no longer recommended for use, often scheduled for removal.",
+                    example: "The deprecated API will be removed in version 3.0, so please migrate to the new endpoints before the deadline.",
+                    synonyms: "obsolete, outdated, discontinued, superseded",
+                    difficulty: 3
+                }
+            ],
+            phrases: [
+                {
+                    term: "Let's circle back on this",
+                    pronunciation: "/lɛts ˈsɜrkəl bæk ɒn ðɪs/",
+                    definition: "To revisit or discuss a topic again later, often when more information is available.",
+                    example: "We don't have all the requirements yet, so let's circle back on this after the client meeting tomorrow.",
+                    synonyms: "revisit later, return to this topic, discuss again",
+                    difficulty: 1
+                },
+                {
+                    term: "Could you walk me through",
+                    pronunciation: "/kʊd ju wɔk mi θru/",
+                    definition: "A polite request for someone to explain a process or procedure step by step.",
+                    example: "Could you walk me through the deployment process so I understand how to push updates to production?",
+                    synonyms: "explain step-by-step, guide me through, show me how",
+                    difficulty: 1
+                },
+                {
+                    term: "From a technical standpoint",
+                    pronunciation: "/frʌm ə ˈtɛknɪkəl ˈstændˌpɔɪnt/",
+                    definition: "Considering the technical aspects or requirements of a situation.",
+                    example: "From a technical standpoint, this approach will require significant refactoring of our existing codebase.",
+                    synonyms: "technically speaking, from a technical perspective, technically",
+                    difficulty: 2
+                }
+            ],
+            idioms: [
+                {
+                    term: "Low-hanging fruit",
+                    pronunciation: "/loʊ ˈhæŋɪŋ frut/",
+                    definition: "Tasks or problems that are easy to accomplish or solve; quick wins that require minimal effort.",
+                    example: "Let's start with the low-hanging fruit like fixing these CSS bugs before tackling the database optimization.",
+                    synonyms: "easy wins, quick fixes, simple tasks, easy targets",
+                    difficulty: 2
+                },
+                {
+                    term: "Move the needle",
+                    pronunciation: "/muv ðə ˈnidəl/",
+                    definition: "To make a significant impact or create meaningful progress toward a goal.",
+                    example: "This new feature should really move the needle in terms of user engagement and retention rates.",
+                    synonyms: "make an impact, create change, drive results, make progress",
+                    difficulty: 3
+                },
+                {
+                    term: "Think outside the box",
+                    pronunciation: "/θɪŋk ˈaʊtˌsaɪd ðə bɑks/",
+                    definition: "To approach problems creatively and consider unconventional solutions.",
+                    example: "We need to think outside the box to solve this performance issue - maybe we should consider a completely different architecture.",
+                    synonyms: "be creative, innovate, find novel solutions, be unconventional",
+                    difficulty: 2
+                }
+            ]
+        };
+
+        // Application state
+        let currentSection = 'dashboard';
+        let currentPracticeMode = null;
+        let currentQuizQuestion = 0;
+        let quizScore = 0;
+        let userStats = {
+            streak: 7,
+            wordsLearned: 45,
+            accuracy: 87,
+            studyTime: 2.5,
+            totalLearned: 156,
+            consecutiveDays: 21
+        };
+
+        // Navigation functions
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(section).classList.add('active');
+            event.target.classList.add('active');
+            
+            currentSection = section;
+            
+            // Load section-specific content
+            if (section === 'learn') {
+                loadLearningContent();
+            } else if (section === 'quiz') {
+                loadQuiz();
+            }
+        }
+
+        // Load learning content
+        function loadLearningContent() {
+            const container = document.getElementById('learning-content');
+            container.innerHTML = '';
+
+            // Add today's word
+            const wordCard = createLearningCard(vocabularyData.words[0], 'word');
+            container.appendChild(wordCard);
+
+            // Add today's phrase
+            const phraseCard = createLearningCard(vocabularyData.phrases[0], 'phrase');
+            container.appendChild(phraseCard);
+
+            // Add today's idiom
+            const idiomCard = createLearningCard(vocabularyData.idioms[0], 'idiom');
+            container.appendChild(idiomCard);
+        }
+
+        // Create learning card
+        function createLearningCard(item, type) {
+            const card = document.createElement('div');
+            card.className = `card ${type}`;
+            
+            const difficultyDots = Array.from({length: 3}, (_, i) => 
+                `<div class="difficulty-dot ${i < item.difficulty ? 'active' : ''}"></div>`
+            ).join('');
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="card-type">${type.toUpperCase()}</div>
+                    <div class="difficulty">${difficultyDots}</div>
+                </div>
+                <div class="card-content">
+                    <h3>${item.term} <button class="audio-btn" onclick="speakText('${item.term}')">🔊</button></h3>
+                    <div class="pronunciation">${item.pronunciation}</div>
+                    <div class="definition">${item.definition}</div>
+                    <div class="example">"${item.example}"</div>
+                    <div class="synonyms">
+                        <strong>Synonyms:</strong> ${item.synonyms}
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Text-to-speech function
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Practice mode functions
+        function startFlashcards() {
+            const practiceArea = document.getElementById('practice-area');
+            const allItems = [...vocabularyData.words, ...vocabularyData.phrases, ...vocabularyData.idioms];
+            let currentIndex = 0;
+            
+            function showCard(index) {
+                const item = allItems[index];
+                practiceArea.innerHTML = `
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-front">
+                            <h2>${item.term}</h2>
+                            <p style="margin-top: 20px; color: #666;">Click to reveal definition</p>
+                        </div>
+                        <div class="flashcard-back">
+                            <p style="font-size: 1.2rem; line-height: 1.6;">${item.definition}</p>
+                            <div style="margin-top: 20px;">
+                                <button class="practice-btn" onclick="nextCard()" style="padding: 10px 20px; margin: 5px;">Next Card</button>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 20px; color: #666;">
+                        Card ${index + 1} of ${allItems.length}
+                    </p>
+                `;
+            }
+
+            window.nextCard = () => {
+                currentIndex = (currentIndex + 1) % allItems.length;
+                showCard(currentIndex);
+            };
+
+            showCard(currentIndex);
+        }
+
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+
+        function startTypingPractice() {
+            const practiceArea = document.getElementById('practice-area');
+            const allItems = [...vocabularyData.words, ...vocabularyData.phrases, ...vocabularyData.idioms];
+            const randomItem = allItems[Math.floor(Math.random() * allItems.length)];
+            
+            practiceArea.innerHTML = `
+                <div class="typing-practice">
+                    <h3>Type the definition for:</h3>
+                    <h2 style="color: #667eea; margin: 20px 0;">${randomItem.term}</h2>
+                    <textarea class="typing-input" placeholder="Type the definition here..." oninput="checkTypingAccuracy(this, '${randomItem.definition}')"></textarea>
+                    <div class="accuracy-meter">
+                        <div class="accuracy-fill" id="accuracy-fill"></div>
+                    </div>
+                    <p id="accuracy-text">Accuracy: 0%</p>
+                    <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <strong>Correct definition:</strong><br>
+                        <span style="color: #666;">${randomItem.definition}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function checkTypingAccuracy(input, correct) {
+            const typed = input.value.toLowerCase();
+            const correctLower = correct.toLowerCase();
+            
+            // Simple similarity calculation
+            let matches = 0;
+            const words = typed.split(' ');
+            const correctWords = correctLower.split(' ');
+            
+            words.forEach(word => {
+                if (correctWords.includes(word)) {
+                    matches++;
+                }
+            });
+            
+            const accuracy = Math.min(100, (matches / correctWords.length) * 100);
+            
+            document.getElementById('accuracy-fill').style.width = accuracy + '%';
+            document.getElementById('accuracy-text').textContent = `Accuracy: ${Math.round(accuracy)}%`;
+        }
+
+        function startPronunciation() {
+            const practiceArea = document.getElementById('practice-area');
+            const allItems = [...vocabularyData.words, ...vocabularyData.phrases, ...vocabularyData.idioms];
+            let currentIndex = 0;
+            
+            function showPronunciationCard(index) {
+                const item = allItems[index];
+                practiceArea.innerHTML = `
+                    <div class="typing-practice">
+                        <h3>🎧 Pronunciation Practice</h3>
+                        <div style="text-align: center; margin: 30px 0;">
+                            <h2 style="color: #667eea;">${item.term}</h2>
+                            <p style="font-size: 1.3rem; color: #666; margin: 15px 0;">${item.pronunciation}</p>
+                            <button class="practice-btn" onclick="speakText('${item.term}')" style="margin: 10px;">
+                                🔊 Listen
+                            </button>
+                            <button class="practice-btn" onclick="startRecording()" style="margin: 10px;">
+                                🎤 Record Yourself
+                            </button>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                            <strong>Definition:</strong><br>
+                            ${item.definition}
+                        </div>
+                        <div style="text-align: center;">
+                            <button class="practice-btn" onclick="nextPronunciationCard()" style="padding: 10px 20px;">
+                                Next Word
+                            </button>
+                        </div>
+                        <p style="text-align: center; margin-top: 20px; color: #666;">
+                            ${index + 1} of ${allItems.length}
+                        </p>
+                    </div>
+                `;
+            }
+
+            window.nextPronunciationCard = () => {
+                currentIndex = (currentIndex + 1) % allItems.length;
+                showPronunciationCard(currentIndex);
+            };
+
+            window.startRecording = () => {
+                alert('🎤 Recording feature would be available in a full implementation. For now, practice by repeating after the audio!');
+            };
+
+            showPronunciationCard(currentIndex);
+        }
+
+        function reviewWeek() {
+            const practiceArea = document.getElementById('practice-area');
+            practiceArea.innerHTML = `
+                <div class="typing-practice">
+                    <h3>📝 Weekly Review</h3>
+                    <div class="stats-grid" style="margin: 30px 0;">
+                        <div class="stat-item">
+                            <span class="stat-number">7</span>
+                            <span>Words This Week</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">7</span>
+                            <span>Phrases This Week</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">7</span>
+                            <span>Idioms This Week</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">85%</span>
+                            <span>Week Accuracy</span>
+                        </div>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                        <h4 style="color: #333; margin-bottom: 15px;">This Week's Focus:</h4>
+                        <ul style="text-align: left; color: #666; line-height: 1.8;">
+                            <li><strong>Technical Terms:</strong> Implementation, Scalable, Deprecated</li>
+                            <li><strong>Professional Phrases:</strong> Circle back, Walk through, Technical standpoint</li>
+                            <li><strong>Business Idioms:</strong> Low-hanging fruit, Move the needle, Think outside the box</li>
+                        </ul>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="practice-btn" onclick="startWeeklyTest()" style="padding: 15px 30px; font-size: 1.1rem;">
+                            🎯 Take Weekly Test
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function startWeeklyTest() {
+            alert('🎯 Weekly comprehensive test would be available in the full version. This would test all 21 items learned this week!');
+        }
+
+        // Quiz functions
+        function loadQuiz() {
+            const quizContainer = document.getElementById('quiz-container');
+            const allItems = [...vocabularyData.words, ...vocabularyData.phrases, ...vocabularyData.idioms];
+            
+            currentQuizQuestion = 0;
+            quizScore = 0;
+            
+            showQuizQuestion();
+        }
+
+        function showQuizQuestion() {
+            const quizContainer = document.getElementById('quiz-container');
+            const allItems = [...vocabularyData.words, ...vocabularyData.phrases, ...vocabularyData.idioms];
+            
+            if (currentQuizQuestion >= 5) {
+                showQuizResults();
+                return;
+            }
+
+            const item = allItems[currentQuizQuestion % allItems.length];
+            const correctAnswer = item.definition;
+            
+            // Create wrong answers
+            const wrongAnswers = allItems
+                .filter(i => i !== item)
+                .slice(0, 3)
+                .map(i => i.definition);
+            
+            const allAnswers = [correctAnswer, ...wrongAnswers].sort(() => Math.random() - 0.5);
+
+            quizContainer.innerHTML = `
+                <div class="quiz-question">
+                    <h3>Question ${currentQuizQuestion + 1} of 5</h3>
+                    <p>What does "<strong>${item.term}</strong>" mean?</p>
+                </div>
+                <div class="quiz-options">
+                    ${allAnswers.map((answer, index) => `
+                        <div class="quiz-option" onclick="selectQuizAnswer(this, '${answer}', '${correctAnswer}')">
+                            ${answer}
+                        </div>
+                    `).join('')}
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="practice-btn" onclick="nextQuizQuestion()" style="display: none;" id="next-quiz-btn">
+                        Next Question
+                    </button>
+                </div>
+            `;
+        }
+
+        function selectQuizAnswer(element, selected, correct) {
+            // Disable all options
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+
+            if (selected === correct) {
+                element.classList.add('correct');
+                quizScore++;
+            } else {
+                element.classList.add('incorrect');
+                // Show correct answer
+                document.querySelectorAll('.quiz-option').forEach(opt => {
+                    if (opt.textContent.trim() === correct) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+
+            document.getElementById('next-quiz-btn').style.display = 'inline-block';
+        }
+
+        function nextQuizQuestion() {
+            currentQuizQuestion++;
+            showQuizQuestion();
+        }
+
+        function showQuizResults() {
+            const accuracy = Math.round((quizScore / 5) * 100);
+            const quizContainer = document.getElementById('quiz-container');
+            
+            quizContainer.innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="color: #667eea; margin-bottom: 20px;">🎉 Quiz Complete!</h2>
+                    <div class="stat-item" style="display: inline-block; margin: 20px;">
+                        <span class="stat-number">${quizScore}/5</span>
+                        <span>Correct Answers</span>
+                    </div>
+                    <div class="stat-item" style="display: inline-block; margin: 20px;">
+                        <span class="stat-number">${accuracy}%</span>
+                        <span>Accuracy</span>
+                    </div>
+                    <div style="margin-top: 30px;">
+                        <button class="practice-btn" onclick="loadQuiz()" style="margin: 10px;">
+                            🔄 Retake Quiz
+                        </button>
+                        <button class="practice-btn" onclick="showSection('learn')" style="margin: 10px;">
+                            📚 Continue Learning
+                        </button>
+                    </div>
+                    <div style="margin-top: 20px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                        <h4 style="color: #333;">💡 Performance Feedback:</h4>
+                        <p style="color: #666; margin-top: 10px;">
+                            ${accuracy >= 80 ? 
+                                'Excellent work! You have a strong grasp of this vocabulary. Keep practicing to maintain your skills!' :
+                                accuracy >= 60 ?
+                                'Good progress! Review the definitions you missed and try the quiz again to improve your score.' :
+                                'Keep studying! Focus on the learning cards and practice modes before retaking the quiz.'
+                            }
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize the app
+        function initApp() {
+            loadLearningContent();
+            updateDashboard();
+        }
+
+        function updateDashboard() {
+            // Update dashboard stats (these would come from stored user data in a real app)
+            document.getElementById('current-streak').textContent = userStats.streak;
+            document.getElementById('words-learned').textContent = userStats.wordsLearned;
+            document.getElementById('quiz-accuracy').textContent = userStats.accuracy + '%';
+            document.getElementById('study-time').textContent = userStats.studyTime + 'h';
+        }
+
+        // Additional vocabulary data for variety (Week 2 content)
+        const week2Vocabulary = {
+            words: [
+                {
+                    term: "Optimization",
+                    pronunciation: "/ˌɑptəməˈzeɪʃən/",
+                    definition: "The process of making a system, design, or decision as effective or functional as possible.",
+                    example: "Database optimization reduced our query response time from 2 seconds to 200 milliseconds.",
+                    synonyms: "improvement, enhancement, refinement, tuning",
+                    difficulty: 2
+                },
+                {
+                    term: "Integration",
+                    pronunciation: "/ˌɪntɪˈgreɪʃən/",
+                    definition: "The process of combining different systems, applications, or components to work together as a unified whole.",
+                    example: "The API integration between our CRM and billing system automated the invoice generation process.",
+                    synonyms: "combination, merging, unification, connection",
+                    difficulty: 2
+                },
+                {
+                    term: "Middleware",
+                    pronunciation: "/ˈmɪdəlˌwɛr/",
+                    definition: "Software that acts as a bridge between different applications or services, facilitating communication and data management.",
+                    example: "We implemented middleware to handle authentication and logging across all our microservices.",
+                    synonyms: "connector software, integration layer, bridge software",
+                    difficulty: 3
+                }
+            ],
+            phrases: [
+                {
+                    term: "Let's take this offline",
+                    pronunciation: "/lɛts teɪk ðɪs ˈɔfˌlaɪn/",
+                    definition: "To continue a discussion privately or outside of the current meeting or forum.",
+                    example: "This seems like a detailed technical discussion - let's take this offline and reconvene with the team later.",
+                    synonyms: "discuss privately, continue separately, talk one-on-one",
+                    difficulty: 1
+                },
+                {
+                    term: "We need to pivot",
+                    pronunciation: "/wi nid tu ˈpɪvət/",
+                    definition: "To change direction, strategy, or approach, especially when the current method isn't working.",
+                    example: "The current architecture isn't scalable, so we need to pivot to a microservices approach.",
+                    synonyms: "change direction, shift strategy, adapt approach",
+                    difficulty: 2
+                },
+                {
+                    term: "This is a show-stopper",
+                    pronunciation: "/ðɪs ɪz ə ʃoʊ ˈstɑpər/",
+                    definition: "A critical issue that prevents progress or blocks a project from continuing.",
+                    example: "The security vulnerability we discovered is a show-stopper - we can't deploy until it's fixed.",
+                    synonyms: "critical blocker, major issue, deal-breaker",
+                    difficulty: 2
+                }
+            ],
+            idioms: [
+                {
+                    term: "Hit the ground running",
+                    pronunciation: "/hɪt ðə graʊnd ˈrʌnɪŋ/",
+                    definition: "To start something with immediate energy and success; to be productive from the very beginning.",
+                    example: "Our new developer hit the ground running and pushed her first feature to production within a week.",
+                    synonyms: "start strong, begin successfully, get going quickly",
+                    difficulty: 2
+                },
+                {
+                    term: "Back to the drawing board",
+                    pronunciation: "/bæk tu ðə ˈdrɔɪŋ bɔrd/",
+                    definition: "To start over completely because the current approach has failed.",
+                    example: "The performance tests failed miserably - it's back to the drawing board for our caching strategy.",
+                    synonyms: "start over, begin again, rethink approach",
+                    difficulty: 2
+                },
+                {
+                    term: "Don't reinvent the wheel",
+                    pronunciation: "/doʊnt ˌriɪnˈvɛnt ðə wil/",
+                    definition: "Don't create something that already exists; use existing solutions instead of creating new ones unnecessarily.",
+                    example: "Instead of building our own logging system, let's use an existing library - no need to reinvent the wheel.",
+                    synonyms: "use existing solutions, don't duplicate effort, leverage what exists",
+                    difficulty: 2
+                }
+            ]
+        };
+
+        // Function to rotate weekly content (simulated)
+        function loadWeeklyContent(week = 1) {
+            if (week === 2) {
+                vocabularyData.words = week2Vocabulary.words;
+                vocabularyData.phrases = week2Vocabulary.phrases;
+                vocabularyData.idioms = week2Vocabulary.idioms;
+                loadLearningContent();
+            }
+        }
+
+        // Simulate progression and achievements
+        function simulateProgress() {
+            // This would be called when user completes activities
+            userStats.wordsLearned++;
+            userStats.totalLearned++;
+            
+            // Update dashboard
+            updateDashboard();
+            
+            // Check for achievements
+            checkAchievements();
+        }
+
+        function checkAchievements() {
+            if (userStats.wordsLearned % 10 === 0) {
+                showAchievement(`🏆 Milestone Reached! You've learned ${userStats.wordsLearned} words!`);
+            }
+            if (userStats.streak === 7) {
+                showAchievement('🔥 Week Streak! You\'ve studied for 7 consecutive days!');
+            }
+            if (userStats.streak === 30) {
+                showAchievement('🌟 Month Champion! 30-day learning streak achieved!');
+            }
+        }
+
+        function showAchievement(message) {
+            // Simple achievement notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
+                z-index: 1000;
+                animation: slideIn 0.5s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Add CSS for notification animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+            
+            // Simulate user activity for demo
+            setTimeout(() => {
+                showAchievement('🚀 Welcome! Start your IT English journey today!');
+            }, 2000);
+        });
+
+        // Additional features for enhanced user experience
+        function exportProgress() {
+            const progressData = {
+                stats: userStats,
+                completedItems: vocabularyData,
+                timestamp: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(progressData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'it-english-progress.json';
+            link.click();
+            
+            URL.revokeObjectURL(url);
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress? This action cannot be undone.')) {
+                userStats = {
+                    streak: 0,
+                    wordsLearned: 0,
+                    accuracy: 0,
+                    studyTime: 0,
+                    totalLearned: 0,
+                    consecutiveDays: 0
+                };
+                updateDashboard();
+                showAchievement('🔄 Progress reset successfully!');
+            }
+        }
+
+        // Add keyboard shortcuts for better navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.altKey) {
+                switch(e.key) {
+                    case '1':
+                        showSection('dashboard');
+                        break;
+                    case '2':
+                        showSection('learn');
+                        break;
+                    case '3':
+                        showSection('practice');
+                        break;
+                    case '4':
+                        showSection('quiz');
+                        break;
+                    case '5':
+                        showSection('stats');
+                        break;
+                }
+            }
+        });
+
+        // Service worker for offline functionality (simulated)
+        if ('serviceWorker' in navigator) {
+            console.log('Service Worker support detected - offline functionality available');
+        }
+    </script>
+</body>
+</html>
