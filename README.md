@@ -176,7 +176,10 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 
 👉 [Live Demo Link for daily-puzzles-master](https://nikitasoam7.github.io/interactive-games/daily-puzzles-master/)
 
-👉 [Live Demo Link for `english-vocabulary-trainer](https://nikitasoam7.github.io/interactive-games/english-vocabulary-trainer/)
+👉 [Live Demo Link for english-vocabulary-trainer](https://nikitasoam7.github.io/interactive-games/english-vocabulary-trainer/)
+
+👉 [Live Demo Link for web-photo-friend](https://nikitasoam7.github.io/interactive-games/web-photo-friend/)
+
 ---
 
 ## 🧑‍💻 Getting Started
