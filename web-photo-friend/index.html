@@ -289,7 +289,7 @@
         /* Floating Collage */
         .floating-collage {
             position: relative;
-            min-height: 600px;
+            height: 600px;
             max-width: 1200px;
             margin: 80px auto;
             padding: 0 40px;
@@ -558,7 +558,7 @@
         /* Responsive Design */
         @media (max-width: 1024px) {
             .floating-collage {
-                min-height: 500px;
+                height: 500px;
             }
 
             .float-item:nth-child(1) {
@@ -594,53 +594,13 @@
 
         @media (max-width: 768px) {
             h1 {
-                font-size: 2em;
-                padding: 0 10px;
+                font-size: 2.2em;
             }
 
             .section-title {
-                font-size: 1.8em;
-                margin: 50px 20px 30px;
+                font-size: 2em;
             }
 
-            header {
-                padding: 50px 20px;
-                margin-bottom: 40px;
-            }
-
-            .date {
-                font-size: 1.1em;
-            }
-
-            /* Polaroid cards mobile fix */
-            .polaroid-gallery {
-                gap: 30px;
-                padding: 20px;
-            }
-
-            .polaroid-card {
-                max-width: 280px;
-            }
-
-            .polaroid-image {
-                height: 240px;
-                font-size: 3em;
-            }
-
-            /* Circle gallery mobile fix */
-            .circle-gallery {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                padding: 40px 20px;
-            }
-
-            .circle-image {
-                width: 150px;
-                height: 150px;
-                font-size: 3em;
-            }
-
-            /* Story sections mobile fix */
             .story-section {
                 flex-direction: column !important;
                 padding: 40px 20px;
@@ -649,90 +609,6 @@
 
             .story-image {
                 min-width: 100%;
-            }
-
-            .story-photo {
-                height: 300px;
-                font-size: 4em;
-            }
-
-            .story-title {
-                font-size: 1.8em;
-            }
-
-            .story-text {
-                font-size: 1.1em;
-            }
-
-            /* Wave divider mobile fix */
-            .wave-divider {
-                height: 60px;
-                margin: 40px 0;
-            }
-
-            /* Floating collage mobile fix - CRITICAL FIX */
-            .floating-collage {
-                position: static;
-                min-height: auto;
-                display: grid;
-                grid-template-columns: 1fr;
-                gap: 30px;
-                padding: 20px;
-                margin: 40px auto;
-            }
-
-            .float-item {
-                position: static !important;
-                width: 100% !important;
-                max-width: 280px !important;
-                height: 280px !important;
-                margin: 0 auto !important;
-                top: auto !important;
-                left: auto !important;
-                right: auto !important;
-                bottom: auto !important;
-            }
-
-            .float-photo {
-                font-size: 4em;
-            }
-
-            /* Moments grid mobile fix */
-            .moments-grid {
-                grid-template-columns: 1fr;
-                gap: 25px;
-                padding: 30px 20px;
-            }
-
-            .moment-item {
-                padding: 30px 25px;
-            }
-
-            .moment-icon {
-                font-size: 2.5em;
-            }
-
-            .moment-title {
-                font-size: 1.2em;
-            }
-
-            /* Glass section mobile fix */
-            .glass-section {
-                padding: 40px 20px;
-                margin: 50px 20px;
-                border-radius: 20px;
-            }
-
-            .quote {
-                font-size: 1.2em;
-                padding: 25px 20px;
-                margin: 25px 0;
-            }
-
-            /* Timeline mobile fix */
-            .timeline {
-                padding: 40px 20px;
-                margin: 50px auto;
             }
 
             .timeline::before {
@@ -744,7 +620,6 @@
                 width: calc(100% - 80px);
                 margin-left: 80px;
                 transform: translateX(0);
-                margin-bottom: 50px;
             }
 
             .timeline-dot,
@@ -753,65 +628,27 @@
                 right: auto;
             }
 
-            .timeline-content {
-                padding: 25px 20px;
+            .polaroid-gallery {
+                gap: 30px;
             }
 
-            .timeline-year {
-                font-size: 1.3em;
-            }
-
-            .timeline-text {
-                font-size: 1em;
-            }
-
-            /* Final message mobile fix */
-            .final-message {
-                padding: 50px 30px;
-                margin: 60px 20px 40px;
-                border-radius: 20px;
-            }
-
-            .final-message p {
-                font-size: 1.3em;
-                line-height: 1.8;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.6em;
-            }
-
-            .section-title {
-                font-size: 1.5em;
-                margin: 40px 15px 25px;
-            }
-
-            .polaroid-card {
-                max-width: 100%;
-            }
-
-            .story-photo {
-                height: 250px;
-                font-size: 3em;
+            .floating-collage {
+                height: 700px;
             }
 
             .float-item {
-                max-width: 240px !important;
-                height: 240px !important;
-            }
-
-            .float-photo {
-                font-size: 3em;
-            }
-
-            .final-message {
-                padding: 40px 20px;
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                bottom: auto !important;
+                margin: 20px auto;
+                width: 200px !important;
+                height: 200px !important;
             }
 
             .final-message p {
-                font-size: 1.1em;
+                font-size: 1.4em;
             }
         }
     </style>
@@ -920,6 +757,9 @@
             <div class="float-item">
                 <div class="float-photo">⚽</div>
             </div>
+        </div>
+        <div>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         </div>
 
         <h2 class="section-title">School Moments 📚</h2>
