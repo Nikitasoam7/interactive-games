@@ -180,6 +180,8 @@ A collection of fun and interactive browser-based games built using HTML, CSS, J
 
 👉 [Live Demo Link for web-photo-friend](https://nikitasoam7.github.io/interactive-games/web-photo-friend/)
 
+👉 [Live Demo Link for web-photo-friend](https://nikitasoam7.github.io/interactive-games/web-photo-friend/index1.html)
+
 ---
 
 ## 🧑‍💻 Getting Started
